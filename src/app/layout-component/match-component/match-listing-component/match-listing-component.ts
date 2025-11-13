@@ -7,11 +7,11 @@ import { EnumPageType } from '@enums/enum-page-type';
 import { RouterLink } from "@angular/router";
 
 @Component({
-  selector: 'app-match-info-component',
+  selector: 'app-match-listing-component',
   imports: [CommonModule, MatButtonModule, MatCardModule, MatIconModule, RouterLink],
-  templateUrl: './match-info-component.html',
-  styleUrl: './match-info-component.scss',
+  templateUrl: './match-listing-component.html',
+  styleUrl: './match-listing-component.scss',
 })
-export class MatchInfoComponent {
+export class MatchListingComponent {
   enumPageType = EnumPageType;
 }

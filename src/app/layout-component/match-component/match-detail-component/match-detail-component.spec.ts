@@ -1,6 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { MatchInfoDetailComponent } from './match-info-detail-component';
+import { MatchInfoDetailComponent } from './match-detail-component';
 
 describe('MatchInfoDetailComponent', () => {
   let component: MatchInfoDetailComponent;
