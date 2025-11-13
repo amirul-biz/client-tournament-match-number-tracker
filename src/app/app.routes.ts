@@ -9,16 +9,23 @@ export const routes: Routes = [
       {
         path: '',
         loadComponent: () =>
-          import('../app/layout-component/match-info-component/match-info-component').then(
-            (m) => m.MatchInfoComponent
+          import('./layout-component/match-component/match-component').then(
+            (m) => m.MatchComponent
           ),
         children: [
+          {
+            path: '',
+            loadComponent: () =>
+              import(
+                './layout-component/match-component/match-listing-component/match-listing-component'
+              ).then((m) => m.MatchListingComponent),
+          },
           {
             path: 'Add',
             loadComponent: () =>
               import(
-                '../app/layout-component/match-info-component/match-info-detail-component/match-info-detail-component'
-              ).then((m) => m.MatchInfoDetailComponent),
+                './layout-component/match-component/match-detail-component/match-detail-component'
+              ).then((m) => m.MatchDetailComponent),
           },
         ],
       },
