@@ -5,6 +5,7 @@
 // Learn more about theming and how to use it for your application's
 // custom components at https://material.angular.dev/guide/theming
 @use '@angular/material' as mat;
+@use "tailwindcss" as tailwind;
 
 html {
   @include mat.theme((
@@ -33,7 +34,7 @@ body {
   // Reset the user agent margin.
   margin: 0;
 }
-@import "tailwindcss";
+
 
 
 html, body { height: 100%; }
