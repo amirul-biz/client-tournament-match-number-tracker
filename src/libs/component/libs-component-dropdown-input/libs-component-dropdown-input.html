@@ -1,0 +1,24 @@
+<mat-form-field class="w-full">
+  <mat-select [formControl]="inputField" placeholder="Bank" #singleSelect>
+    <mat-option>
+      <ngx-mat-select-search [formControl]="inputField"></ngx-mat-select-search>
+    </mat-option>
+    @for(data of dataList; track $index){
+    <mat-option [value]="data[targetValueKey]">
+      {{ data[targetDisplayKey] }}
+    </mat-option>
+    }
+  </mat-select>
+  <mat-label
+    >{{ labelText }}
+    @if (!isMandatory) {
+    <span> (optional) </span>
+    } @if (showInfoIcon) {
+    <mat-icon matSuffix [matTooltip]="tooltipText">info</mat-icon>
+    }
+  </mat-label>
+  @if (hint) {
+  <mat-hint>{{ hint }}</mat-hint>
+  }
+</mat-form-field>
+@if (inputField.errors) { }
