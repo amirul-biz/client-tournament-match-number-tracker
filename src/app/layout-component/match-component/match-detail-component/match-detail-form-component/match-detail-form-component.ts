@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { FormGroup } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { IMatchDetailForm } from './match-detail-form-config';
 
 @Component({
   selector: 'app-match-detail-form-component',
@@ -9,5 +11,5 @@ import { RouterModule } from '@angular/router';
   styleUrl: './match-detail-form-component.scss',
 })
 export class MatchDetailFormComponent {
-
+ @Input() matchDetailForm!: FormGroup<IMatchDetailForm> 
 }

@@ -1,11 +1,23 @@
-import { Component } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
+import { MatchDetailFormComponent } from './match-detail-form-component/match-detail-form-component';
+import {
+  getMatchDetailForm,
+  ITeamDetailForm,
+} from './match-detail-form-component/match-detail-form-config';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-match-detail-component',
-  imports: [],
+  imports: [CommonModule, MatchDetailFormComponent],
   templateUrl: './match-detail-component.html',
   styleUrl: './match-detail-component.scss',
 })
-export class MatchDetailComponent {
+export class MatchDetailComponent implements OnInit {
+  matchDetailForm = getMatchDetailForm();
+  homeTeamForm!: FormGroup<ITeamDetailForm>;
+  awayTeamForm!: FormGroup<ITeamDetailForm>;
 
+  ngOnInit(): void {
+  }
 }
