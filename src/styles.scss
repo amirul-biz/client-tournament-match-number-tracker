@@ -4,8 +4,18 @@
 // components according to the Material 3 design spec.
 // Learn more about theming and how to use it for your application's
 // custom components at https://material.angular.dev/guide/theming
-@use '@angular/material' as mat;
 @use "tailwindcss" as tailwind;
+@use '@angular/material' as mat;
+
+
+@layer base {
+  /* Exclude Angular Material elements from Tailwind reset */
+  :where(mat-form-field, mat-form-field * ) {
+    all: unset; /* remove Tailwind reset only for Material form-field */
+    all: revert; /* restore browser default + Material MDC */
+  }
+}
+
 
 html {
   @include mat.theme((

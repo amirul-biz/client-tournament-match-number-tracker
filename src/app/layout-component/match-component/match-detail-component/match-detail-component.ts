@@ -15,9 +15,6 @@ import { FormGroup } from '@angular/forms';
 })
 export class MatchDetailComponent implements OnInit {
   matchDetailForm = getMatchDetailForm();
-  homeTeamForm!: FormGroup<ITeamDetailForm>;
-  awayTeamForm!: FormGroup<ITeamDetailForm>;
-
   ngOnInit(): void {
   }
 }
