@@ -9,6 +9,7 @@ import { LibsComponentDropdownInput } from 'libs/component/libs-component-dropdo
 import { LibsComponentTextInput } from 'libs/component/libs-component-text-input/libs-component-text-input';
 import { IMatchDetailForm } from './match-detail-form-config';
 import { MatButtonModule } from '@angular/material/button';
+import json from '@json/styles.json'
 
 @Component({
   selector: 'app-match-detail-form-component',
@@ -28,6 +29,7 @@ import { MatButtonModule } from '@angular/material/button';
 })
 export class MatchDetailFormComponent {
   @Input() matchDetailForm!: FormGroup<IMatchDetailForm>;
+  style = json
 
    matchStatuslist: { [key: string]: any }[] = [
     { id: 1, name: 'Scheduled' },
