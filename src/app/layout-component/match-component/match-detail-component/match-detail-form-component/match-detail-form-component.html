@@ -1,16 +1,18 @@
-<div class="bg-white shadow-lg rounded-lg p-6 border border-gray-400 my-4">
-  <div class="text-center text-2xl sm:text-3xl md:text-4xl lg:text-6xl my-6">Create Match</div>
+<div [ngClass]="[style.card, 'mb-12']">
+  <div [ngClass]="[style.text.header, style.utility.headerTextSpacing]">Create Match</div>
 
   <form [formGroup]="matchDetailForm">
-    <div class="my-2 grid grid-cols-1 sm:grid-cols-2 gap-4 my-4">
-      <div>
+    <div
+      [ngClass]="[style.utility.sectionSpacing, 'grid', 'grid-cols-1', 'sm:grid-cols-2']"
+    >
+      <div [ngClass]="[style.utility.contentSpacing]">
         <app-libs-component-text-input
           [inputField]="matchDetailForm.controls.matchNumber"
           labelText="Enter Match Number"
           placeholder="Match Number"
         ></app-libs-component-text-input>
       </div>
-      <div>
+      <div [ngClass]="[style.utility.contentSpacing]">
         <app-libs-component-dropdown-input
           [inputField]="matchDetailForm.controls.statusId"
           labelText="Select Status"
@@ -22,18 +24,19 @@
       </div>
     </div>
 
-    <!-- 1 col on mobile, 2 cols on sm/md/lg/xl -->
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 my-4">
+    <div
+      [ngClass]="[style.utility.sectionSpacing, 'grid', 'grid-cols-1', 'sm:grid-cols-2', 'gap-4']"
+    >
       @let teamFormArray = matchDetailForm.controls.teamInfos; @for (teamFormGroup of
       teamFormArray.controls; track $index) { @let TeamDesignation = $index === 0 ? 'First' :
       'Second';
 
-      <div class="p-4 border border-gray-300 rounded-lg">
-        <div class="text-2xl sm:text-3xl md:text-4xl lg:text-4xl my-4">
+      <div [ngClass]="[style.card, style.utility.contentSpacing]">
+        <div [ngClass]="[style.text.section, style.utility.sectionTextSpacing]">
           {{ TeamDesignation }} Team
         </div>
 
-        <div class="my-2">
+        <div>
           <app-libs-component-dropdown-input
             [inputField]="teamFormGroup.controls.teamId"
             labelText="Select Team"
@@ -44,7 +47,7 @@
           ></app-libs-component-dropdown-input>
         </div>
 
-        <div class="my-2">
+        <div>
           <app-libs-component-text-input
             [inputField]="teamFormGroup.controls.score"
             labelText="Enter Score"
@@ -56,7 +59,23 @@
     </div>
   </form>
 
-  <div class="flex">
-    
+  <div
+    [ngClass]="[style.utility.sectionSpacing, 'flex', 'justify-center', 'items-center', 'gap-4']"
+  >
+    <div>
+      <button [ngClass]="[style.button.base, 'bg-red-600', 'hover:bg-red-700']">
+        Cancel
+      </button>
+    </div>
+    <div>
+      <button [ngClass]="[style.button.base, 'bg-yellow-500', 'hover:bg-yellow-600']">
+        Reset
+      </button>
+    </div>
+    <div>
+      <button [ngClass]="[style.button.base, 'bg-green-500', 'hover:bg-green-600']">
+        Create Match
+      </button>
+    </div>
   </div>
 </div>

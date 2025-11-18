@@ -16,7 +16,8 @@
     "module": "preserve",
     "baseUrl": "./src",
     "paths": {
-      "@enums/*": ["libs/enums/*"]
+      "@enums/*": ["libs/enums/*"],
+      "@json/*": ["libs/json/*"],
     }
   },
   "angularCompilerOptions": {
