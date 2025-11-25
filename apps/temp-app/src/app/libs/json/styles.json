@@ -1,0 +1,17 @@
+{
+  "text": {
+    "header": "text-center text-4xl sm:text-5xl md:text-4xl lg:text-6xl",
+    "section": "text-2xl sm:text-3xl md:text-4xl lg:text-4xl"
+  },
+  "button": {
+    "base": "px-6 py-2 rounded font-medium focus:outline-none focus:ring-2 transition-colors text-white duration-200 cursor-pointer"
+  },
+  "card": "bg-white shadow-lg rounded-lg border border-gray-400",
+  "utility": {
+    "headerTextSpacing": "my-6",
+    "sectionTextSpacing": "my-4",
+    "sectionSpacing": "p-4",
+    "contentSpacing": "p-4",
+    "footerSpacing": "p-4 my-2 mb-7"
+  }
+}
