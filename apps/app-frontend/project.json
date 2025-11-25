@@ -2,28 +2,28 @@
   "name": "temp-app",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
+  "sourceRoot": "apps/app-frontend/src",
+  "prefix": "app",
   "generators": {
     "@schematics/angular:component": {
       "style": "scss"
     }
   },
-  "sourceRoot": "apps/temp-app/src",
-  "prefix": "app",
   "targets": {
     "build": {
       "executor": "@angular/build:application",
       "options": {
-        "browser": "apps/temp-app/src/main.ts",
-        "tsConfig": "apps/temp-app/tsconfig.app.json",
+        "browser": "apps/app-frontend/src/main.ts",
+        "tsConfig": "apps/app-frontend/tsconfig.app.json",
         "inlineStyleLanguage": "scss",
         "assets": [
           {
             "glob": "**/*",
-            "input": "apps/temp-app/public"
+            "input": "apps/app-frontend/public"
           }
         ],
-        "styles": ["apps/temp-app/src/styles.scss"],
-        "server": "apps/temp-app/src/main.server.ts",
+        "styles": ["apps/app-frontend/src/styles.scss"],
+        "server": "apps/app-frontend/src/main.server.ts",
         "outputMode": "static",
         "ssr": false,
         "outputPath": "dist/temp-app"
@@ -71,15 +71,15 @@
     "test": {
       "executor": "@angular/build:karma",
       "options": {
-        "tsConfig": "apps/temp-app/tsconfig.spec.json",
+        "tsConfig": "apps/app-frontend/tsconfig.spec.json",
         "inlineStyleLanguage": "scss",
         "assets": [
           {
             "glob": "**/*",
-            "input": "apps/temp-app/public"
+            "input": "apps/app-frontend/public"
           }
         ],
-        "styles": ["apps/temp-app/src/styles.scss"]
+        "styles": ["apps/app-frontend/src/styles.scss"]
       }
     }
   }

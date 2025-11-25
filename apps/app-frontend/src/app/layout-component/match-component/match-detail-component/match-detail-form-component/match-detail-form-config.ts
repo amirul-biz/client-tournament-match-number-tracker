@@ -1,4 +1,4 @@
-import {EnumStatusType} from '../../../../libs/enums/enum-status-type'
+import { EnumStatusType } from '../../../../libs/enums/enum-status-type';
 import { FormArray, FormControl, FormGroup, Validators } from '@angular/forms';
 
 export interface IMatchDetailForm {
