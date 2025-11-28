@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
   output   = "../generated/prisma"
@@ -30,7 +24,7 @@ model Arena {
 /// Status Model
 model Status {
   // Primary Key - Using Int as specified, auto-incremented
-  id    Int    @id @default(autoincrement())
+  id     String @id @default(uuid())
   name  String @unique // Status names are usually unique
 
   // Relationship to Match: A Status can apply to many Matches
@@ -40,7 +34,7 @@ model Status {
 // team model
 model Team{
   // Primary Key - Using Int as specified, auto-incremented
-  id    Int    @id @default(autoincrement())
+  id    String @id @default(uuid())
   name  String
 
   // Relationship to TeamMatch: A Team can participate in many Matches
@@ -50,7 +44,7 @@ model Team{
 /// Match Model
 model Match {
   // Primary Key - Using UUID for a robust, auto-generated ID
-  id          String    @id @default(uuid())
+  id          String @id @default(uuid())
   bout        String
   createdAt   DateTime  @default(now())
   editedAt    DateTime  @updatedAt
@@ -60,7 +54,7 @@ model Match {
   arena       Arena   @relation(fields: [arenaId], references: [id])
 
   // Foreign Key to Status
-  statusId    Int
+  statusId    String
   status      Status  @relation(fields: [statusId], references: [id])
 
   // Relationship to TeamMatch: A Match can have many TeamMatch records
@@ -76,13 +70,13 @@ model Match {
 /// TeamMatch Model (Junction Table)
 model TeamMatch {
   // Primary Key - Using Int as specified, auto-incremented
-  id      Int @id @default(autoincrement())
+  id      String @id @default(uuid())
 
   // Foreign Key to Match
   matchId String
   match   Match @relation(fields: [matchId], references: [id])
 
-  teamId  Int
+  teamId  String
   team   Team @relation(fields: [teamId], references: [id])
 
 

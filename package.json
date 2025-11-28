@@ -8,8 +8,8 @@
     "watch": "nx build --watch --configuration development",
     "test": "nx test",
     "serve:ssr:temp-app": "node dist/temp-app/server/server.mjs",
-    "serve:dev": "nx run app-server:serve:development",
-    "serve:dev:server": "nx run app-server:serve:dev",
+    "serve:prod": "cross-env NODE_ENV=production nx run app-server:serve:production",
+    "serve:dev": "cross-env NODE_ENV=development nx run app-server:serve:development",
     "prisma:generate": "prisma generate",
     "prisma:migrate:dev": "prisma migrate dev",
     "prisma:studio": "prisma studio"
@@ -45,6 +45,7 @@
     "@prisma/client": "^7.0.1",
     "@tailwindcss/postcss": "^4.1.16",
     "axios": "^1.6.0",
+    "dotenv": "^17.2.3",
     "express": "^5.1.0",
     "ngx-mat-select-search": "^8.0.3",
     "postcss": "^8.5.6",

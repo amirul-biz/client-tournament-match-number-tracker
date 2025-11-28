@@ -54,16 +54,10 @@
       },
       "configurations": {
         "development": {
-          "buildTarget": "app-server:build:development",
-          "env": {
-            "NODE_ENV": "development"
-          }
+          "buildTarget": "app-server:build:development"
         },
         "production": {
-          "buildTarget": "app-server:build:production",
-          "env": {
-            "NODE_ENV": "production"
-          }
+          "buildTarget": "app-server:build:production"
         }
       }
     },
@@ -73,10 +67,7 @@
       "dependsOn": ["build"],
       "options": {
         "buildTarget": "app-server:build:development",
-        "runBuildTargetDependencies": false,
-        "env": {
-          "NODE_ENV": "development"
-        }
+        "runBuildTargetDependencies": false
       }
     },
     "test": {

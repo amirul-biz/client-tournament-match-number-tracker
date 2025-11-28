@@ -7,7 +7,7 @@ async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   
   const globalPrefix = 'api';
-  const port = 3000;
+  const port = 3001;
   
   app.setGlobalPrefix(globalPrefix);
 
