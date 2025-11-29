@@ -1,7 +1,7 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { UpdateArenaCommand } from '../commands';
-import { ArenaRepository } from '../../infrastructure/repositories/arena.repository';
-import { Arena } from '../../../../../generated/prisma/client';
+import { UpdateArenaCommand } from '../../commands/command.arena/update-arena.command';
+import { ArenaRepository } from '../../../infrastructure/repositories/repository.arena/arena.repository';
+import { Arena } from '../../../../../../generated/prisma/client';
 import { NotFoundException } from '@nestjs/common';
 
 @CommandHandler(UpdateArenaCommand)

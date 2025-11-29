@@ -21,16 +21,16 @@ import {
   CreateArenaDto,
   UpdateArenaDto,
   ArenaResponseDto,
-} from './domain/dtos';
+} from '../../domain/dtos';
 import {
   CreateArenaCommand,
   UpdateArenaCommand,
   DeleteArenaCommand,
-} from './application/commands';
+} from '../../application/commands';
 import {
   GetAllArenasQuery,
   GetArenaByIdQuery,
-} from './application/queries';
+} from '../../application/queries';
 
 @ApiTags('arenas')
 @Controller('arenas')

@@ -1,4 +1,4 @@
-import { UpdateArenaDto } from '../../domain/dtos';
+import { UpdateArenaDto } from "../../../domain/dtos";
 
 export class UpdateArenaCommand {
   constructor(

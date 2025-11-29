@@ -1,7 +1,7 @@
 import { QueryHandler, IQueryHandler } from '@nestjs/cqrs';
-import { GetAllArenasQuery } from '../queries';
-import { ArenaRepository } from '../../infrastructure/repositories/arena.repository';
-import { Arena } from '../../../../../generated/prisma/client';
+import { GetAllArenasQuery } from '../../queries';
+import { ArenaRepository } from '../../../infrastructure/repositories/repository.arena/arena.repository';
+import { Arena } from '../../../../../../generated/prisma/client';
 
 @QueryHandler(GetAllArenasQuery)
 export class GetAllArenasHandler implements IQueryHandler<GetAllArenasQuery> {
