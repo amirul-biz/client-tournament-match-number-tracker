@@ -1,4 +1,4 @@
-import { CreateArenaDto } from '../../domain/dtos';
+import { CreateArenaDto } from "../../../domain/dtos";
 
 export class CreateArenaCommand {
   constructor(public readonly data: CreateArenaDto) {}

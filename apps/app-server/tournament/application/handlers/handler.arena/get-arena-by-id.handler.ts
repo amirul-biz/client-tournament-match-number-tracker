@@ -1,7 +1,7 @@
 import { QueryHandler, IQueryHandler } from '@nestjs/cqrs';
-import { GetArenaByIdQuery } from '../queries';
-import { ArenaRepository } from '../../infrastructure/repositories/arena.repository';
-import { Arena } from '../../../../../generated/prisma/client';
+import { GetArenaByIdQuery } from '../../queries';
+import { ArenaRepository } from '../../../infrastructure/repositories/repository.arena/arena.repository';
+import { Arena } from '../../../../../../generated/prisma/client';
 import { NotFoundException } from '@nestjs/common';
 
 @QueryHandler(GetArenaByIdQuery)

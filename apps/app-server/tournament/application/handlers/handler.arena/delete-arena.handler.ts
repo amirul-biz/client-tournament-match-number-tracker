@@ -1,7 +1,7 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { DeleteArenaCommand } from '../commands';
-import { ArenaRepository } from '../../infrastructure/repositories/arena.repository';
-import { Arena } from '../../../../../generated/prisma/client';
+import { DeleteArenaCommand } from '../../commands';
+import { ArenaRepository } from '../../../infrastructure/repositories/repository.arena/arena.repository';
+import { Arena } from '../../../../../../generated/prisma/client';
 import { NotFoundException } from '@nestjs/common';
 
 @CommandHandler(DeleteArenaCommand)
