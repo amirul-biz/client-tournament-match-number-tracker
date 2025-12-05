@@ -1,18 +1,30 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
+import { NotFoundException } from '@nestjs/common';
 import { UpdateArenaCommand } from '../../commands/command.arena/update-arena.command';
 import { ArenaRepository } from '../../../infrastructure/repositories/repository.arena/arena.repository';
-import { Arena } from '../../../../../../generated/prisma/client';
-import { NotFoundException } from '@nestjs/common';
+import { ArenaResponseDto } from '../../../domain/dtos';
+import { ArenaMapper } from '../../../domain/mappers';
 
 @CommandHandler(UpdateArenaCommand)
-export class UpdateArenaHandler implements ICommandHandler<UpdateArenaCommand> {
-  constructor(private readonly arenaRepository: ArenaRepository) {}
+export class UpdateArenaHandler
+  implements ICommandHandler<UpdateArenaCommand, ArenaResponseDto>
+{
+  constructor(
+    private readonly arenaRepository: ArenaRepository,
+    private readonly arenaMapper: ArenaMapper,
+  ) {}
 
-  async execute(command: UpdateArenaCommand): Promise<Arena> {
-    const arena = await this.arenaRepository.findById(command.id);
-    if (!arena) {
+  async execute(command: UpdateArenaCommand): Promise<ArenaResponseDto> {
+    const existingArena = await this.arenaRepository.findById(command.id);
+
+    if (!existingArena) {
       throw new NotFoundException(`Arena with ID ${command.id} not found`);
     }
-    return this.arenaRepository.update(command.id, command.data);
+
+    const updatedArena = await this.arenaRepository.update(
+      command.id,
+      command.data,
+    );
+    return this.arenaMapper.toResponseDto(updatedArena);
   }
 }

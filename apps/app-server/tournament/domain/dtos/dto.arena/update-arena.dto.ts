@@ -1,13 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
-import { IsOptional, IsString } from 'class-validator';
+import { PartialType } from '@nestjs/swagger';
+import { CreateArenaDto } from './create-arena.dto';
 
-export class UpdateArenaDto {
-  @ApiProperty({
-    description: 'The name of the arena',
-    example: 'Updated Arena Name',
-    required: false,
-  })
-  @IsOptional()
-  @IsString()
-  name?: string;
-}
+export class UpdateArenaDto extends PartialType(CreateArenaDto) {}

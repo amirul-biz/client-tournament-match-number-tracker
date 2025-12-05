@@ -2,10 +2,10 @@ import { ApiProperty } from '@nestjs/swagger';
 import { IsNotEmpty, IsString, MinLength, MaxLength } from 'class-validator';
 import { Transform } from 'class-transformer';
 
-export class CreateArenaDto {
+export class CreateTeamDto {
   @ApiProperty({
-    description: 'The name of the arena',
-    example: 'Arena 1',
+    description: 'The team Name',
+    example: 'Team Alpha',
     minLength: 1,
     maxLength: 100,
   })
