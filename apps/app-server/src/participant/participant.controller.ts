@@ -1,22 +1,41 @@
-import { Body, Controller, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
+import { Body, Controller, Get, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
 import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
-import { FileInterceptor } from '@nestjs/platform-express'; // <-- 1. Import FileInterceptor@ApiTags('participant')
+import { FileInterceptor } from '@nestjs/platform-express';
+import { ParticipantService } from './participant.service';
+import { CreateParticipantDto } from './dto/create-participant.dto';
 import * as XLSX from 'xlsx';
 
 export interface IFileUploadResponse {
   participantName: string;
-  categoryId: number;
+  categoryId: string;
+  teamId: string
 }
 
 export interface IResponseMapper {
   teamId: number;
   participantName: string;
   categoryId: number;
-  categoryName: string
 }
 
+@ApiTags('participant')
 @Controller('participant')
 export class ParticipantController {
+  constructor(private participantService: ParticipantService) {}
+
+  @Post()
+  create(@Body() createParticipantDto: CreateParticipantDto) {
+    return this.participantService.create(
+      createParticipantDto.name,
+      createParticipantDto.teamId,
+      createParticipantDto.categoryId
+    );
+  }
+
+  @Get()
+  findAll() {
+    return this.participantService.findAll();
+  }
+
   @Post('upload')
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('file'))
@@ -39,20 +58,17 @@ export class ParticipantController {
     const worksheet = workbook.Sheets[sheetName];
 
     // Convert the worksheet data to JSON
-    const data = XLSX.utils.sheet_to_json(worksheet) as IFileUploadResponse[];
-    const mockTeamId = 1; // Moi TKD
+    const data = XLSX.utils.sheet_to_json(worksheet) as CreateParticipantDto[];
 
-    const responseData = data.map((data) => {
-      return {
-        teamId: mockTeamId,
-        participantName: data.participantName,
-        categoryId: data.categoryId,
-      } as IResponseMapper;
-    });
-
+  
     // You can now process the 'data' array (e.g., save to database)
-    console.log(responseData);
+    console.log(data);
 
-    return { message: 'File processed successfully', responseData };
+    this.participantService.createMany(data)
+
+
+    return { message: 'File processed successfully', data };
   }
+
+
 }
