@@ -2,7 +2,6 @@ import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import { rabbitMQConfig } from './message-broker/message-broker.auth';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -11,7 +10,6 @@ async function bootstrap() {
   const port = 3001;
 
   app.setGlobalPrefix(globalPrefix);
-  app.connectMicroservice(rabbitMQConfig());
   
 
   // Enable global validation with strict settings
@@ -36,7 +34,6 @@ async function bootstrap() {
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, document); 
 
-  await app.startAllMicroservices();
   await app.listen(port);
 
   Logger.log(`🚀 Application is running on: http://localhost:${port}/${globalPrefix}`);
