@@ -50,7 +50,7 @@
       "options": {
         "targetName": "test"
       },
-      "exclude": ["apps/app-server-e2e/**/*"]
+      "exclude": ["apps/app-competition-e2e/**/*"]
     }
   ]
 }

@@ -18,9 +18,9 @@
     {
       "type": "node",
       "request": "launch",
-      "name": "Debug app-server with Nx",
+      "name": "Debug app-competition with Nx",
       "runtimeExecutable": "npx",
-      "runtimeArgs": ["nx", "serve", "app-server"],
+      "runtimeArgs": ["nx", "serve", "app-competition"],
       "env": {
         "NODE_OPTIONS": "--inspect=9229"
       },
@@ -28,7 +28,7 @@
       "internalConsoleOptions": "neverOpen",
       "skipFiles": ["<node_internals>/**"],
       "sourceMaps": true,
-      "outFiles": ["${workspaceFolder}/apps/app-server/dist/**/*.(m|c|)js", "!**/node_modules/**"]
+      "outFiles": ["${workspaceFolder}/apps/app-competition/dist/**/*.(m|c|)js", "!**/node_modules/**"]
     }
   ]
 }

@@ -106,14 +106,14 @@ ng e2e
 
 Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
 
-## Database Management (Prisma)
+## Database Management (Prisma - app-competition)
 
 ### Generate Prisma Client
 
 After modifying the Prisma schema, regenerate the client:
 
 ```bash
-npm run prisma:generate
+npm run app-competition:prisma:generate
 ```
 
 ### Create/Apply Migrations
@@ -121,7 +121,15 @@ npm run prisma:generate
 To create and apply database migrations:
 
 ```bash
-npm run prisma:migrate:dev
+npm run app-competition:prisma:migrate:dev
+```
+
+### Deploy Migrations (Production)
+
+To deploy migrations to production:
+
+```bash
+npm run app-competition:prisma:migrate:deploy
 ```
 
 ### Prisma Studio (Database GUI)
@@ -129,19 +137,28 @@ npm run prisma:migrate:dev
 To open Prisma Studio for visual database management:
 
 ```bash
-npm run prisma:studio
+npm run app-competition:prisma:studio
 ```
 
 This will open a web interface at `http://localhost:5555` where you can view and edit your database records.
 
+### Push Schema Changes (Development)
+
+To push schema changes directly to the database without creating migrations:
+
+```bash
+npm run app-competition:prisma:db:push
+```
+
 ## Project Structure
 
 - `apps/app-frontend/` - Angular frontend application
-- `apps/app-server/` - NestJS backend API
-- `prisma/` - Database schema and migrations
+- `apps/app-competition/` - NestJS backend API
+  - `prisma/` - Database schema and migrations for app-competition
+  - `generated/prisma/` - Generated Prisma client
+  - `src/` - Application source code
 - `libs/` - Shared libraries
-- `.env.dev` - Development environment variables
-- `prisma.config.ts` - Prisma configuration with environment support
+- `.env` - Root environment variables (loaded by NestJS)
 
 ## Additional Resources
 
