@@ -8,11 +8,13 @@
     "watch": "nx build --watch --configuration development",
     "test": "nx test",
     "serve:ssr:temp-app": "node dist/temp-app/server/server.mjs",
-    "serve:prod": "cross-env NODE_ENV=production nx run app-server:serve:production",
-    "serve:dev": "cross-env NODE_ENV=development nx run app-server:serve:development",
-    "prisma:generate": "prisma generate",
-    "prisma:migrate:dev": "prisma migrate dev",
-    "prisma:studio": "prisma studio"
+    "serve:prod": "cross-env NODE_ENV=production nx run app-competition:serve:production",
+    "serve:dev": "cross-env NODE_ENV=development nx run app-competition:serve:development",
+    "app-competition:prisma:generate": "prisma generate --schema=apps/app-competition/prisma/schema.prisma",
+    "app-competition:prisma:migrate:dev": "prisma migrate dev --schema=apps/app-competition/prisma/schema.prisma",
+    "app-competition:prisma:migrate:deploy": "prisma migrate deploy --schema=apps/app-competition/prisma/schema.prisma",
+    "app-competition:prisma:studio": "prisma studio --schema=apps/app-competition/prisma/schema.prisma",
+    "app-competition:prisma:db:push": "prisma db push --schema=apps/app-competition/prisma/schema.prisma"
   },
   "prettier": {
     "printWidth": 100,
