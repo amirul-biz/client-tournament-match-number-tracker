@@ -3,7 +3,7 @@ import { CqrsModule } from '@nestjs/cqrs';
 import { ArenaController } from './arena.controller';
 import { ArenaRepository } from '../../infrastructure/repositories/repository.arena/arena.repository';
 import { ArenaMapper } from '../../domain/mappers';
-import { PrismaService } from '../../../src/prisma/prisma.service';
+import { DatabaseModule } from '../../infrastructure/database';
 import {
   CreateArenaHandler,
   UpdateArenaHandler,
@@ -24,10 +24,9 @@ const QueryHandlers = [
 ];
 
 @Module({
-  imports: [CqrsModule],
+  imports: [CqrsModule, DatabaseModule],
   controllers: [ArenaController],
   providers: [
-    PrismaService,
     ArenaRepository,
     ArenaMapper,
     ...CommandHandlers,

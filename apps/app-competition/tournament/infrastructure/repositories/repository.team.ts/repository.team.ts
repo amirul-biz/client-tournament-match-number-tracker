@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { Team } from '../../../../generated/prisma';
-import { PrismaService } from '../../../../src/prisma/prisma.service';
+import { PrismaService } from '../../database';
 import { CreateTeamDto, UpdateTeamDto } from '../../../domain/dtos';
 
 @Injectable()

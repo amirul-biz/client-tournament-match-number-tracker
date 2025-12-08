@@ -5,9 +5,10 @@ import { ArenaModule } from '../../tournament/presentation/presentation.arena/ar
 import { TeamModule } from '../../tournament/presentation/presentation.team/team.module';
 import { ParticipantModule } from '../participant/participant.module';
 import { CategoryModule } from '../category/category.module';
+import { DatabaseModule } from '../../tournament/infrastructure/database';
 
 @Module({
-  imports: [ArenaModule, TeamModule, ParticipantModule, CategoryModule],
+  imports: [DatabaseModule, ArenaModule, TeamModule, ParticipantModule, CategoryModule],
   controllers: [AppController],
   providers: [AppService],
 })

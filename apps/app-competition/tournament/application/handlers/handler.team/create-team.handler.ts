@@ -3,6 +3,8 @@ import { TeamResponseDto } from '../../../domain/dtos';
 import { TeamRepository } from '../../../infrastructure/repositories/repository.team.ts/repository.team';
 import { TeamMapper } from '../../../domain/mappers/team.mapper';
 import { CreateTeamCommand } from '../../commands/team.command/create-team.command';
+import { Inject } from '@nestjs/common';
+import { ClientProxy } from '@nestjs/microservices';
 
 @CommandHandler(CreateTeamCommand)
 export class CreateTeamHandler
@@ -11,10 +13,15 @@ export class CreateTeamHandler
   constructor(
     private readonly teamRepository: TeamRepository,
     private readonly teamMapper: TeamMapper,
+    @Inject('AUTH_SERVICE_CLIENT') private readonly client: ClientProxy,
   ) {}
 
   async execute(command: CreateTeamCommand): Promise<TeamResponseDto> {
     const team = await this.teamRepository.create(command.data);
-    return this.teamMapper.toResponseDto(team);
+    const data =  this.teamMapper.toResponseDto(team);
+    this.client.emit('team.created', data).subscribe({
+      error: (err) => console.error('RabbitMQ emit error:', err),
+    });
+    return data
   }
 }
