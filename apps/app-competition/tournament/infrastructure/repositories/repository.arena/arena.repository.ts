@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { PrismaService } from '../../../../src/prisma/prisma.service';
+import { PrismaService } from '../../database';
 import { CreateArenaDto, UpdateArenaDto } from '../../../domain/dtos';
 import { Arena } from '../../../../generated/prisma';
 
