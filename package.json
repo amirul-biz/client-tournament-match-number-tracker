@@ -10,12 +10,19 @@
     "serve:ssr:temp-app": "node dist/temp-app/server/server.mjs",
     "serve:prod": "cross-env NODE_ENV=production nx run app-competition:serve:production",
     "serve:dev": "cross-env NODE_ENV=development nx run app-competition:serve:development",
-    "app-competition:prisma:generate": "prisma generate --schema=apps/app-competition/prisma/schema.prisma",
-    "app-competition:prisma:migrate:dev": "prisma migrate dev --schema=apps/app-competition/prisma/schema.prisma",
-    "app-competition:prisma:migrate:deploy": "prisma migrate deploy --schema=apps/app-competition/prisma/schema.prisma",
-    "app-competition:prisma:studio": "prisma studio --schema=apps/app-competition/prisma/schema.prisma",
-    "app-competition:prisma:db:push": "prisma db push --schema=apps/app-competition/prisma/schema.prisma",
-    "app-auth:serve:dev": "cross-env NODE_ENV=development nx run app-auth:serve:development"
+    "app-competition:prisma:generate": "prisma generate --schema=apps/app-competition/prisma/schema.prisma --config=apps/app-competition/prisma/prisma.config.ts",
+    "app-competition:prisma:migrate:dev": "prisma migrate dev --schema=apps/app-competition/prisma/schema.prisma --config=apps/app-competition/prisma/prisma.config.ts",
+    "app-competition:prisma:migrate:deploy": "prisma migrate deploy --schema=apps/app-competition/prisma/schema.prisma --config=apps/app-competition/prisma/prisma.config.ts",
+    "app-competition:prisma:studio": "prisma studio --schema=apps/app-competition/prisma/schema.prisma --config=apps/app-competition/prisma/prisma.config.ts",
+    "app-competition:prisma:db:push": "prisma db push --schema=apps/app-competition/prisma/schema.prisma --config=apps/app-competition/prisma/prisma.config.ts",
+
+    "app-auth:serve:dev": "cross-env NODE_ENV=development nx run app-auth:serve:development",
+    "app-auth:prisma:generate": "prisma generate --schema=apps/app-auth/src/app/prisma/schema.prisma --config=apps/app-auth/src/app/prisma/prisma.config.ts",
+    "app-auth:prisma:migrate:dev": "prisma migrate dev --schema=apps/app-auth/src/app/prisma/schema.prisma --config=apps/app-auth/src/app/prisma/prisma.config.ts",
+    "app-auth:prisma:migrate:deploy": "prisma migrate deploy --schema=apps/app-auth/src/app/prisma/schema.prisma --config=apps/app-auth/src/app/prisma/prisma.config.ts",
+    "app-auth:prisma:studio": "prisma studio --schema=apps/app-auth/src/app/prisma/schema.prisma --config=apps/app-auth/src/app/prisma/prisma.config.ts",
+    "app-auth:prisma:db:push": "prisma db push --schema=apps/app-auth/src/app/prisma/schema.prisma --config=apps/app-auth/src/app/prisma/prisma.config.ts"
+
   },
   "prettier": {
     "printWidth": 100,
