@@ -10,6 +10,7 @@ async function bootstrap() {
   const port = 3001;
 
   app.setGlobalPrefix(globalPrefix);
+  
 
   // Enable global validation with strict settings
   app.useGlobalPipes(

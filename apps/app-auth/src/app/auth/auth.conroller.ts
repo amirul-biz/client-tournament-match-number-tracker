@@ -1,7 +1,8 @@
-import { Controller, Get, Req, UseGuards } from '@nestjs/common';
+import { Controller, Get, Logger, Req, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { GoogleOauthGuard } from './auth.o-auth.guard';
 import { Request } from 'express';
+import { EventPattern } from '@nestjs/microservices';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -17,9 +18,18 @@ export class AuthController {
     // This is where you'll handle the user data from Google
 
     //assume i will save the  jwt token and redirect to client side
+    Logger.log(`req.user`);
+
     return {
       message: 'User information from Google',
-      user: req.user
+      user: req.user,
     };
+  }
+
+  @EventPattern('team_created_pattern')
+  async handleMessage(data: Record<string, any>) {
+    console.log('Received message:', data);
+    Logger.log(`Received message:${data}`)
+    // Add your message processing logic here
   }
 }
