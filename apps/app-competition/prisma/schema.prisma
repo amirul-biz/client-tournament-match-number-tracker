@@ -32,8 +32,9 @@ model Status {
 // team model
 model Team {
   // Primary Key - Using Int as specified, auto-incremented
-  id   String @id @default(uuid())
-  name String
+  id     String @id @default(uuid())
+  name   String
+  userId String // Track which user created this team
 
   // Relationship to TeamMatch: A Team can participate in many Matches
   teamMatches TeamMatch[]
@@ -42,6 +43,7 @@ model Team {
   participants Participant[]
 
   @@index([id])
+  @@index([userId])
 }
 
 //Category Model

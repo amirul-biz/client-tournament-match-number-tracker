@@ -8,7 +8,12 @@ export class TeamRepository {
   constructor(private readonly prisma: PrismaService) {}
 
   async create(data: CreateTeamDto): Promise<Team> {
-    return this.prisma.team.create({ data });
+    return this.prisma.team.create({
+      data: {
+        name: data.name,
+        userId: data.userId!,  // userId is guaranteed to be set by the controller
+      }
+    });
   }
 
   async findAll(): Promise<Team[]> {

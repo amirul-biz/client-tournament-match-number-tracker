@@ -3,7 +3,7 @@ import { TeamResponseDto } from '../../../domain/dtos';
 import { TeamRepository } from '../../../infrastructure/repositories/repository.team.ts/repository.team';
 import { TeamMapper } from '../../../domain/mappers/team.mapper';
 import { CreateTeamCommand } from '../../commands/team.command/create-team.command';
-import { Inject } from '@nestjs/common';
+import { Inject, Logger } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 
 @CommandHandler(CreateTeamCommand)
@@ -22,6 +22,7 @@ export class CreateTeamHandler
     this.client.emit('team.created', data).subscribe({
       error: (err) => console.error('RabbitMQ emit error:', err),
     });
+    Logger.log('data being', data)
     return data
   }
 }

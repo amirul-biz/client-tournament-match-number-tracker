@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(tree:*)",
+      "Bash(cat:*)",
+      "Bash(npm run build:*)",
+      "Bash(npm run app-auth:prisma:generate:*)",
+      "Bash(npm run serve:dev:*)",
+      "Bash(timeout 20 npm run serve:dev:*)",
+      "Bash(timeout 25 npm run serve:dev:*)",
+      "Bash(npx nx build:*)",
+      "Bash(npx nx reset:*)",
+      "Bash(npx nx daemon --stop)",
+      "Bash(netstat:*)",
+      "Bash(findstr:*)",
+      "Bash(taskkill:*)",
+      "Bash(npm run app-competition:prisma:migrate:dev:*)",
+      "Bash(npm run app-competition:prisma:studio:*)",
+      "Bash(npm run app-competition:prisma:db:push:*)",
+      "Bash(timeout 30 npm run app-competition:prisma:migrate:dev:*)",
+      "Bash(npm run app-competition:prisma:migrate:deploy:*)",
+      "Bash(npx prisma migrate resolve:*)",
+      "Bash(echo:*)",
+      "Bash(npx prisma db execute:*)",
+      "Bash(npm run app-competition:prisma:generate:*)"
+    ],
+    "deny": [],
+    "ask": []
+  }
+}

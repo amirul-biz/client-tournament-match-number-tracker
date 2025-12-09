@@ -11,26 +11,23 @@ import {
   GetAllArenasHandler,
   GetArenaByIdHandler,
 } from '../../application/handlers/index';
+import { JwtModule } from '@nestjs/jwt';
+import { AuthGuard } from '@libs';
 
-const CommandHandlers = [
-  CreateArenaHandler,
-  UpdateArenaHandler,
-  DeleteArenaHandler,
-];
+const CommandHandlers = [CreateArenaHandler, UpdateArenaHandler, DeleteArenaHandler];
 
-const QueryHandlers = [
-  GetAllArenasHandler,
-  GetArenaByIdHandler,
-];
+const QueryHandlers = [GetAllArenasHandler, GetArenaByIdHandler];
 
 @Module({
-  imports: [CqrsModule, DatabaseModule],
-  controllers: [ArenaController],
-  providers: [
-    ArenaRepository,
-    ArenaMapper,
-    ...CommandHandlers,
-    ...QueryHandlers,
+  imports: [
+    CqrsModule,
+    DatabaseModule,
+    JwtModule.register({
+      global: true,
+      secret: process.env['JWT_SECRET'],
+    }),
   ],
+  controllers: [ArenaController],
+  providers: [AuthGuard, ArenaRepository, ArenaMapper, ...CommandHandlers, ...QueryHandlers],
 })
 export class ArenaModule {}

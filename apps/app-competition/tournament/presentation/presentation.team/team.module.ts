@@ -1,5 +1,6 @@
 import { Module } from '@nestjs/common';
 import { CqrsModule } from '@nestjs/cqrs';
+import { JwtModule } from '@nestjs/jwt';
 import { PresentationTeamController } from './presentation.team.controller';
 import { TeamRepository } from '../../infrastructure/repositories/repository.team.ts/repository.team';
 import { TeamMapper } from '../../domain/mappers/team.mapper';
@@ -22,7 +23,14 @@ const QueryHandlers = [
 ];
 
 @Module({
-  imports: [CqrsModule, RmqClientModule, DatabaseModule],
+  imports: [
+    CqrsModule,
+    RmqClientModule,
+    DatabaseModule,
+    JwtModule.register({
+      secret: process.env['JWT_SECRET'],
+    }),
+  ],
   controllers: [PresentationTeamController],
   providers: [
     TeamRepository,
