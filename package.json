@@ -15,14 +15,12 @@
     "app-competition:prisma:migrate:deploy": "prisma migrate deploy --schema=apps/app-competition/prisma/schema.prisma --config=apps/app-competition/prisma/prisma.config.ts",
     "app-competition:prisma:studio": "prisma studio --schema=apps/app-competition/prisma/schema.prisma --config=apps/app-competition/prisma/prisma.config.ts",
     "app-competition:prisma:db:push": "prisma db push --schema=apps/app-competition/prisma/schema.prisma --config=apps/app-competition/prisma/prisma.config.ts",
-
     "app-auth:serve:dev": "cross-env NODE_ENV=development nx run app-auth:serve:development",
     "app-auth:prisma:generate": "prisma generate --schema=apps/app-auth/src/app/prisma/schema.prisma --config=apps/app-auth/src/app/prisma/prisma.config.ts",
     "app-auth:prisma:migrate:dev": "prisma migrate dev --schema=apps/app-auth/src/app/prisma/schema.prisma --config=apps/app-auth/src/app/prisma/prisma.config.ts",
     "app-auth:prisma:migrate:deploy": "prisma migrate deploy --schema=apps/app-auth/src/app/prisma/schema.prisma --config=apps/app-auth/src/app/prisma/prisma.config.ts",
     "app-auth:prisma:studio": "prisma studio --schema=apps/app-auth/src/app/prisma/schema.prisma --config=apps/app-auth/src/app/prisma/prisma.config.ts",
     "app-auth:prisma:db:push": "prisma db push --schema=apps/app-auth/src/app/prisma/schema.prisma --config=apps/app-auth/src/app/prisma/prisma.config.ts"
-
   },
   "prettier": {
     "printWidth": 100,
@@ -51,6 +49,7 @@
     "@nestjs/common": "^11.0.0",
     "@nestjs/core": "^11.0.0",
     "@nestjs/cqrs": "^11.0.3",
+    "@nestjs/jwt": "^11.0.2",
     "@nestjs/microservices": "^11.1.9",
     "@nestjs/passport": "^11.0.5",
     "@nestjs/platform-express": "^11.1.9",
