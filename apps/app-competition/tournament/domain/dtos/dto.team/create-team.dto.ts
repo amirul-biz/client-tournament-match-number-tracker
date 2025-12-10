@@ -15,4 +15,8 @@ export class CreateTeamDto {
   @MaxLength(100)
   @Transform(({ value }) => value?.trim())
   name!: string;
+
+  // userId is set internally from the authenticated user, not from request body
+  // This should NOT have validation decorators since it's not user input
+  userId?: string;
 }

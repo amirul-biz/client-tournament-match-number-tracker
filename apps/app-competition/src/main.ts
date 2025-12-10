@@ -1,7 +1,9 @@
+import 'dotenv/config';
 import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
+import cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -9,8 +11,16 @@ async function bootstrap() {
   const globalPrefix = 'api';
   const port = 3001;
 
+  // Enable cookie parser
+  app.use(cookieParser());
+
+  // Enable CORS
+  app.enableCors({
+    origin: true,
+    credentials: true,
+  });
+
   app.setGlobalPrefix(globalPrefix);
-  
 
   // Enable global validation with strict settings
   app.useGlobalPipes(
@@ -21,18 +31,19 @@ async function bootstrap() {
       transformOptions: {
         enableImplicitConversion: true,
       },
-    }),
+    })
   );
 
   const config = new DocumentBuilder()
     .setTitle('Match API')
-    .setDescription('API Doc for match application')
+    .setDescription('API Doc for match application\n\nAuthentication: This API uses HTTP-only cookies for authentication. Please authenticate first at: http://localhost:5000/api/auth/google')
     .setVersion('1.0')
     .addTag('match')
+    .addServer('http://localhost:3001', 'Development Server')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);
-  SwaggerModule.setup('api', app, document); 
+  SwaggerModule.setup('api', app, document);
 
   await app.listen(port);
 

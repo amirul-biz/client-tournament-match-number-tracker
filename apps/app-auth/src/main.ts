@@ -1,23 +1,45 @@
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
-import { Logger } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app/app.module';
 import { MicroserviceOptions, Transport } from '@nestjs/microservices';
+import cookieParser from 'cookie-parser';
+import { HttpExceptionFilter } from './domain/exceptions';
 
 async function bootstrap() {
-
   const rabbitMQConfig: MicroserviceOptions = {
-  transport: Transport.RMQ,
-  options: {
-    urls: [process.env['RABBITMQ_URL'] || 'amqp://localhost:5672'],
-    queue: 'microservices_events_queue', // General queue for all microservices
-    queueOptions: {
-      durable: false,
+    transport: Transport.RMQ,
+    options: {
+      urls: [process.env['RABBITMQ_URL'] || 'amqp://localhost:5672'],
+      queue: 'microservices_events_queue',
+      queueOptions: {
+        durable: false,
+      },
     },
-  },
-};
+  };
 
   const app = await NestFactory.create(AppModule);
+
+  // Enable global exception filter
+  app.useGlobalFilters(new HttpExceptionFilter());
+
+  // Enable global validation pipe
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      forbidNonWhitelisted: true,
+      transform: true,
+    })
+  );
+
+  // Enable cookie parser
+  app.use(cookieParser());
+
+  // Enable CORS
+  app.enableCors({
+    origin: true,
+    credentials: true,
+  });
 
   // Only connect to RabbitMQ if it's available
   try {
@@ -31,7 +53,7 @@ async function bootstrap() {
 
   const globalPrefix = 'api';
   app.setGlobalPrefix(globalPrefix);
-  const port =  5000;
+  const port = 5000;
 
 
   const config = new DocumentBuilder()
@@ -39,6 +61,7 @@ async function bootstrap() {
     .setDescription('API Doc for Auth microservice')
     .setVersion('1.0')
     .addTag('auth')
+    .addServer('http://localhost:5000', 'Development Server')
     .build();
 
   const document = SwaggerModule.createDocument(app, config);

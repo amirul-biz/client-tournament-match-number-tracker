@@ -132,7 +132,8 @@ exports.Prisma.StatusScalarFieldEnum = {
 
 exports.Prisma.TeamScalarFieldEnum = {
   id: 'id',
-  name: 'name'
+  name: 'name',
+  userId: 'userId'
 };
 
 exports.Prisma.CategoryScalarFieldEnum = {

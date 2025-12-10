@@ -9,8 +9,14 @@ import {
   HttpCode,
   HttpStatus,
   ParseUUIDPipe,
+  UseGuards,
+  Req,
+  UnauthorizedException,
+  Logger,
 } from '@nestjs/common';
+import { Request } from 'express';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
+import { AuthGuard } from '../../../../../libs/app-auth/auth-guard';
 import {
   ApiTags,
   ApiOperation,
@@ -38,6 +44,7 @@ export class PresentationTeamController {
   ) {}
 
   @Post()
+  @UseGuards(AuthGuard)
   @HttpCode(HttpStatus.CREATED)
   @ApiOperation({ summary: 'Create a new team' })
   @ApiBody({ type: CreateTeamDto })
@@ -47,14 +54,31 @@ export class PresentationTeamController {
     type: TeamResponseDto,
   })
   @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: 'Unauthorized - authentication required',
+  })
+  @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
     description: 'Invalid input data',
   })
   async create(
     @Body() createTeamDto: CreateTeamDto,
+    @Req() request: Request,
   ): Promise<TeamResponseDto> {
+    // Extract userId from JWT authenticated user
+    const user = request.user as Express.User;
+
+    Logger.log(request.user);
+
+    if (!user?.id) {
+      throw new UnauthorizedException('User ID not found in token');
+    }
+
+    // Attach userId to DTO
+    const dtoWithUser = { ...createTeamDto, userId: user.id };
+
     return this.commandBus.execute<CreateTeamCommand, TeamResponseDto>(
-      new CreateTeamCommand(createTeamDto),
+      new CreateTeamCommand(dtoWithUser),
     );
   }
 

@@ -15,8 +15,10 @@
     "baseUrl": ".",
     "paths": {
       "@enums/*": ["libs/enums/*"],
-      "@json/*": ["libs/json/*"]
+      "@json/*": ["libs/json/*"],
+      "@libs": ["libs/index.ts"]
     },
+    "typeRoots": ["./node_modules/@types", "./types"],
     "rootDir": "."
   },
   "angularCompilerOptions": {

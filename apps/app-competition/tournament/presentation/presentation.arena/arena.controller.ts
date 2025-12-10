@@ -9,6 +9,7 @@ import {
   HttpCode,
   HttpStatus,
   ParseUUIDPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import {
@@ -17,6 +18,7 @@ import {
   ApiResponse,
   ApiParam,
   ApiBody,
+  ApiBearerAuth,
 } from '@nestjs/swagger';
 import {
   CreateArenaDto,
@@ -32,6 +34,8 @@ import {
   GetAllArenasQuery,
   GetArenaByIdQuery,
 } from '../../application/queries';
+import { AuthGuard } from '@libs';
+
 
 @ApiTags('arenas')
 @Controller('arenas')
@@ -63,6 +67,7 @@ export class ArenaController {
   }
 
   @Get()
+  @UseGuards(AuthGuard)
   @ApiOperation({ summary: 'Get all arenas' })
   @ApiResponse({
     status: HttpStatus.OK,
