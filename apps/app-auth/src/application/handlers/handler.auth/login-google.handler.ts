@@ -4,6 +4,7 @@ import { LoginGoogleCommand } from '../../commands';
 import { AuthRepository } from '../../../infrastructure/repositories/repository.auth/auth.repository';
 import { AuthMapper } from '../../../domain/mappers';
 import { AuthResponseDto } from '../../../domain/dtos';
+import { AUTH_CONFIG, JwtPayload } from '@libs';
 
 @CommandHandler(LoginGoogleCommand)
 export class LoginGoogleHandler
@@ -30,14 +31,18 @@ export class LoginGoogleHandler
     }
 
     // Generate tokens
-    const payload = {
+    const payload: JwtPayload = {
       id: user.id,
       googleId: user.googleId,
       name: user.name,
     };
 
-    const accessToken = this.jwtService.sign(payload, { expiresIn: '5m' });
-    const refreshToken = this.jwtService.sign(payload, { expiresIn: '3h' });
+    const accessToken = this.jwtService.sign(payload, {
+      expiresIn: AUTH_CONFIG.ACCESS_TOKEN_EXPIRY,
+    });
+    const refreshToken = this.jwtService.sign(payload, {
+      expiresIn: AUTH_CONFIG.REFRESH_TOKEN_EXPIRY,
+    });
 
     // Store refresh token
     await this.authRepository.updateRefreshToken(user.googleId, refreshToken);

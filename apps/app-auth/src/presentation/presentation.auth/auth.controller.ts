@@ -20,7 +20,7 @@ import { GoogleOauthGuard } from './guards/google-oauth.guard';
 import { LoginGoogleCommand } from '../../application/commands';
 import { GetProfileQuery } from '../../application/queries';
 import { AuthResponseDto, ProfileResponseDto, GoogleUserDto } from '../../domain/dtos';
-import { AuthGuard } from '@libs';
+import { AuthGuard, setAuthCookies } from '@libs';
 
 @ApiTags('auth')
 @Controller('auth')
@@ -64,21 +64,8 @@ export class AuthController {
       AuthResponseDto
     >(new LoginGoogleCommand(googleUserDto));
 
-    // Set cookies
-    res.cookie('access_token', authResponse.accessToken, {
-      secure: process.env['NODE_ENV'] === 'production',
-      sameSite: 'lax',
-      domain: 'localhost',
-      expires: new Date(Date.now() + 5 * 60 * 1000), // 5 minutes
-    });
-
-    res.cookie('refresh_token', authResponse.refreshToken, {
-      httpOnly: true,
-      secure: process.env['NODE_ENV'] === 'production',
-      sameSite: 'lax',
-      domain: 'localhost',
-      expires: new Date(Date.now() + 3 * 60 * 60 * 1000), // 3 hours
-    });
+    // Set cookies using centralized auth config
+    setAuthCookies(res, authResponse.accessToken, authResponse.refreshToken);
 
     // Redirect to client
     const clientHomeUrl =

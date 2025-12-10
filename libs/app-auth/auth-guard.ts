@@ -1,20 +1,16 @@
 import { CanActivate, ExecutionContext, Injectable, Logger } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Request, Response } from 'express';
-
-export interface JwtPayload {
-  id: string;
-  googleId: string;
-  name: string;
-  teamId?: string;
-  teamName?: string;
-}
+import {
+  AUTH_CONFIG,
+  JwtPayload,
+  extractUserPayload,
+  setAccessTokenCookie,
+} from './auth.config';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
   private readonly logger = new Logger(AuthGuard.name);
-  private readonly ACCESS_TOKEN_EXPIRY = '5m';
-  private readonly ACCESS_TOKEN_EXPIRY_MS = 5 * 60 * 1000;
 
   constructor(private jwtService: JwtService) {}
 
@@ -22,8 +18,8 @@ export class AuthGuard implements CanActivate {
     const request = context.switchToHttp().getRequest<Request>();
     const response = context.switchToHttp().getResponse<Response>();
 
-    const accessToken = this.extractTokenFromCookie(request, 'access_token');
-    const refreshToken = this.extractTokenFromCookie(request, 'refresh_token');
+    const accessToken = this.extractTokenFromCookie(request, AUTH_CONFIG.COOKIE_ACCESS_TOKEN);
+    const refreshToken = this.extractTokenFromCookie(request, AUTH_CONFIG.COOKIE_REFRESH_TOKEN);
 
     // No tokens present - redirect to auth
     if (!accessToken || !refreshToken) {
@@ -67,17 +63,21 @@ export class AuthGuard implements CanActivate {
     response: Response
   ): Promise<boolean> {
     try {
-      const payload = await this.jwtService.verifyAsync<JwtPayload>(refreshToken, {
+      const payload = await this.jwtService.verifyAsync(refreshToken, {
         secret: process.env['JWT_SECRET'],
       });
 
       this.logger.log('Refresh token verified, issuing new access token');
 
-      const newAccessToken = this.jwtService.sign(payload, {
-        expiresIn: this.ACCESS_TOKEN_EXPIRY,
+      // Extract only user data, excluding JWT metadata (exp, iat, etc.)
+      const userPayload = extractUserPayload(payload);
+
+      const newAccessToken = this.jwtService.sign(userPayload, {
+        secret: process.env['JWT_SECRET'],
+        expiresIn: AUTH_CONFIG.ACCESS_TOKEN_EXPIRY,
       });
 
-      this.setAccessTokenCookie(response, newAccessToken);
+      setAccessTokenCookie(response, newAccessToken);
 
       request.user = payload;
       return true;
@@ -87,15 +87,6 @@ export class AuthGuard implements CanActivate {
       this.redirectToAuth(response);
       return false;
     }
-  }
-
-  private setAccessTokenCookie(response: Response, token: string): void {
-    response.cookie('access_token', token, {
-      secure: process.env['NODE_ENV'] === 'production',
-      sameSite: 'lax',
-      domain: 'localhost',
-      expires: new Date(Date.now() + this.ACCESS_TOKEN_EXPIRY_MS),
-    });
   }
 
   private redirectToAuth(response: Response): void {
