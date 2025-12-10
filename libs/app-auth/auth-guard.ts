@@ -2,8 +2,12 @@ import { CanActivate, ExecutionContext, Injectable, Logger } from '@nestjs/commo
 import { JwtService } from '@nestjs/jwt';
 import { Request, Response } from 'express';
 
-interface JwtPayload {
-  [key: string]: any;
+export interface JwtPayload {
+  id: string;
+  googleId: string;
+  name: string;
+  teamId?: string;
+  teamName?: string;
 }
 
 @Injectable()
@@ -47,7 +51,7 @@ export class AuthGuard implements CanActivate {
         secret: process.env['JWT_SECRET'],
       });
 
-      request['user'] = payload;
+      request.user = payload;
       this.logger.log('Access token verified successfully');
       return true;
     } catch (err) {
@@ -75,7 +79,7 @@ export class AuthGuard implements CanActivate {
 
       this.setAccessTokenCookie(response, newAccessToken);
 
-      request['user'] = payload;
+      request.user = payload;
       return true;
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Unknown error';

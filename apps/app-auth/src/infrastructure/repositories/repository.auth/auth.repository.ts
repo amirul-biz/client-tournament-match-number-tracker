@@ -30,11 +30,4 @@ export class AuthRepository {
       data: { refreshToken },
     });
   }
-
-  async updateTeamInfo(userId: string, teamId: string, teamName: string): Promise<User> {
-    return this.prisma.user.update({
-      where: { id: userId },
-      data: { teamId, teamName },
-    });
-  }
 }

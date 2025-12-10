@@ -861,8 +861,6 @@ export namespace Prisma {
     googleId: string | null
     name: string | null
     refreshToken: string | null
-    teamId: string | null
-    teamName: string | null
   }
 
   export type UserMaxAggregateOutputType = {
@@ -870,8 +868,6 @@ export namespace Prisma {
     googleId: string | null
     name: string | null
     refreshToken: string | null
-    teamId: string | null
-    teamName: string | null
   }
 
   export type UserCountAggregateOutputType = {
@@ -879,8 +875,6 @@ export namespace Prisma {
     googleId: number
     name: number
     refreshToken: number
-    teamId: number
-    teamName: number
     _all: number
   }
 
@@ -890,8 +884,6 @@ export namespace Prisma {
     googleId?: true
     name?: true
     refreshToken?: true
-    teamId?: true
-    teamName?: true
   }
 
   export type UserMaxAggregateInputType = {
@@ -899,8 +891,6 @@ export namespace Prisma {
     googleId?: true
     name?: true
     refreshToken?: true
-    teamId?: true
-    teamName?: true
   }
 
   export type UserCountAggregateInputType = {
@@ -908,8 +898,6 @@ export namespace Prisma {
     googleId?: true
     name?: true
     refreshToken?: true
-    teamId?: true
-    teamName?: true
     _all?: true
   }
 
@@ -990,8 +978,6 @@ export namespace Prisma {
     googleId: string
     name: string
     refreshToken: string | null
-    teamId: string | null
-    teamName: string | null
     _count: UserCountAggregateOutputType | null
     _min: UserMinAggregateOutputType | null
     _max: UserMaxAggregateOutputType | null
@@ -1016,8 +1002,6 @@ export namespace Prisma {
     googleId?: boolean
     name?: boolean
     refreshToken?: boolean
-    teamId?: boolean
-    teamName?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1025,8 +1009,6 @@ export namespace Prisma {
     googleId?: boolean
     name?: boolean
     refreshToken?: boolean
-    teamId?: boolean
-    teamName?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -1034,8 +1016,6 @@ export namespace Prisma {
     googleId?: boolean
     name?: boolean
     refreshToken?: boolean
-    teamId?: boolean
-    teamName?: boolean
   }, ExtArgs["result"]["user"]>
 
   export type UserSelectScalar = {
@@ -1043,11 +1023,9 @@ export namespace Prisma {
     googleId?: boolean
     name?: boolean
     refreshToken?: boolean
-    teamId?: boolean
-    teamName?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "googleId" | "name" | "refreshToken" | "teamId" | "teamName", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "googleId" | "name" | "refreshToken", ExtArgs["result"]["user"]>
 
   export type $UserPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "User"
@@ -1057,8 +1035,6 @@ export namespace Prisma {
       googleId: string
       name: string
       refreshToken: string | null
-      teamId: string | null
-      teamName: string | null
     }, ExtArgs["result"]["user"]>
     composites: {}
   }
@@ -1486,8 +1462,6 @@ export namespace Prisma {
     readonly googleId: FieldRef<"User", 'String'>
     readonly name: FieldRef<"User", 'String'>
     readonly refreshToken: FieldRef<"User", 'String'>
-    readonly teamId: FieldRef<"User", 'String'>
-    readonly teamName: FieldRef<"User", 'String'>
   }
     
 
@@ -1872,9 +1846,7 @@ export namespace Prisma {
     id: 'id',
     googleId: 'googleId',
     name: 'name',
-    refreshToken: 'refreshToken',
-    teamId: 'teamId',
-    teamName: 'teamName'
+    refreshToken: 'refreshToken'
   };
 
   export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
@@ -1948,8 +1920,6 @@ export namespace Prisma {
     googleId?: StringFilter<"User"> | string
     name?: StringFilter<"User"> | string
     refreshToken?: StringNullableFilter<"User"> | string | null
-    teamId?: StringNullableFilter<"User"> | string | null
-    teamName?: StringNullableFilter<"User"> | string | null
   }
 
   export type UserOrderByWithRelationInput = {
@@ -1957,8 +1927,6 @@ export namespace Prisma {
     googleId?: SortOrder
     name?: SortOrder
     refreshToken?: SortOrderInput | SortOrder
-    teamId?: SortOrderInput | SortOrder
-    teamName?: SortOrderInput | SortOrder
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -1969,8 +1937,6 @@ export namespace Prisma {
     NOT?: UserWhereInput | UserWhereInput[]
     name?: StringFilter<"User"> | string
     refreshToken?: StringNullableFilter<"User"> | string | null
-    teamId?: StringNullableFilter<"User"> | string | null
-    teamName?: StringNullableFilter<"User"> | string | null
   }, "id" | "googleId">
 
   export type UserOrderByWithAggregationInput = {
@@ -1978,8 +1944,6 @@ export namespace Prisma {
     googleId?: SortOrder
     name?: SortOrder
     refreshToken?: SortOrderInput | SortOrder
-    teamId?: SortOrderInput | SortOrder
-    teamName?: SortOrderInput | SortOrder
     _count?: UserCountOrderByAggregateInput
     _max?: UserMaxOrderByAggregateInput
     _min?: UserMinOrderByAggregateInput
@@ -1993,8 +1957,6 @@ export namespace Prisma {
     googleId?: StringWithAggregatesFilter<"User"> | string
     name?: StringWithAggregatesFilter<"User"> | string
     refreshToken?: StringNullableWithAggregatesFilter<"User"> | string | null
-    teamId?: StringNullableWithAggregatesFilter<"User"> | string | null
-    teamName?: StringNullableWithAggregatesFilter<"User"> | string | null
   }
 
   export type UserCreateInput = {
@@ -2002,8 +1964,6 @@ export namespace Prisma {
     googleId: string
     name: string
     refreshToken?: string | null
-    teamId?: string | null
-    teamName?: string | null
   }
 
   export type UserUncheckedCreateInput = {
@@ -2011,8 +1971,6 @@ export namespace Prisma {
     googleId: string
     name: string
     refreshToken?: string | null
-    teamId?: string | null
-    teamName?: string | null
   }
 
   export type UserUpdateInput = {
@@ -2020,8 +1978,6 @@ export namespace Prisma {
     googleId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
-    teamId?: NullableStringFieldUpdateOperationsInput | string | null
-    teamName?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserUncheckedUpdateInput = {
@@ -2029,8 +1985,6 @@ export namespace Prisma {
     googleId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
-    teamId?: NullableStringFieldUpdateOperationsInput | string | null
-    teamName?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserCreateManyInput = {
@@ -2038,8 +1992,6 @@ export namespace Prisma {
     googleId: string
     name: string
     refreshToken?: string | null
-    teamId?: string | null
-    teamName?: string | null
   }
 
   export type UserUpdateManyMutationInput = {
@@ -2047,8 +1999,6 @@ export namespace Prisma {
     googleId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
-    teamId?: NullableStringFieldUpdateOperationsInput | string | null
-    teamName?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type UserUncheckedUpdateManyInput = {
@@ -2056,8 +2006,6 @@ export namespace Prisma {
     googleId?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     refreshToken?: NullableStringFieldUpdateOperationsInput | string | null
-    teamId?: NullableStringFieldUpdateOperationsInput | string | null
-    teamName?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -2100,8 +2048,6 @@ export namespace Prisma {
     googleId?: SortOrder
     name?: SortOrder
     refreshToken?: SortOrder
-    teamId?: SortOrder
-    teamName?: SortOrder
   }
 
   export type UserMaxOrderByAggregateInput = {
@@ -2109,8 +2055,6 @@ export namespace Prisma {
     googleId?: SortOrder
     name?: SortOrder
     refreshToken?: SortOrder
-    teamId?: SortOrder
-    teamName?: SortOrder
   }
 
   export type UserMinOrderByAggregateInput = {
@@ -2118,8 +2062,6 @@ export namespace Prisma {
     googleId?: SortOrder
     name?: SortOrder
     refreshToken?: SortOrder
-    teamId?: SortOrder
-    teamName?: SortOrder
   }
 
   export type StringWithAggregatesFilter<$PrismaModel = never> = {

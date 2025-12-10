@@ -31,11 +31,9 @@ export class LoginGoogleHandler
 
     // Generate tokens
     const payload = {
-      sub: user.id,
+      id: user.id,
       googleId: user.googleId,
       name: user.name,
-      teamId: user.teamId,
-      teamName: user.teamName,
     };
 
     const accessToken = this.jwtService.sign(payload, { expiresIn: '5m' });

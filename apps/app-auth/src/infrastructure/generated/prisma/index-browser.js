@@ -124,9 +124,7 @@ exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
   googleId: 'googleId',
   name: 'name',
-  refreshToken: 'refreshToken',
-  teamId: 'teamId',
-  teamName: 'teamName'
+  refreshToken: 'refreshToken'
 };
 
 exports.Prisma.SortOrder = {

@@ -6,6 +6,7 @@ import {
   UseGuards,
   HttpCode,
   HttpStatus,
+  Logger,
 } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import {
@@ -48,13 +49,7 @@ export class AuthController {
     description: 'Redirects to client with auth cookies set',
   })
   async googleAuthCallback(@Req() req: Request, @Res() res: Response) {
-    const googleUser = req.user as {
-      provider: string;
-      providerId: string;
-      email: string;
-      name: string;
-      picture: string;
-    };
+    const googleUser = req.user as Express.OAuthUser;
 
     const googleUserDto: GoogleUserDto = {
       googleId: googleUser.providerId,
@@ -109,9 +104,12 @@ export class AuthController {
     description: 'User not found',
   })
   async getProfile(@Req() req: Request): Promise<ProfileResponseDto> {
-    const user = req['user'] as { sub: string };
+    const user = req.user as Express.User;
+    if (!user?.id) {
+      throw new Error('User ID not found in token');
+    }
     return this.queryBus.execute<GetProfileQuery, ProfileResponseDto>(
-      new GetProfileQuery(user.sub)
+      new GetProfileQuery(user.id)
     );
   }
 }

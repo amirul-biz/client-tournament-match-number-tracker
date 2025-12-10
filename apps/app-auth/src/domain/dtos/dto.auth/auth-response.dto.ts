@@ -29,20 +29,4 @@ export class AuthResponseDto {
   })
   @Expose()
   name!: string;
-
-  @ApiProperty({
-    description: 'Team ID if user belongs to a team',
-    example: '123e4567-e89b-12d3-a456-426614174000',
-    required: false,
-  })
-  @Expose()
-  teamId?: string;
-
-  @ApiProperty({
-    description: 'Team name if user belongs to a team',
-    example: 'Team Alpha',
-    required: false,
-  })
-  @Expose()
-  teamName?: string;
 }

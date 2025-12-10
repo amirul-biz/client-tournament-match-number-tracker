@@ -12,6 +12,7 @@ import {
   UseGuards,
   Req,
   UnauthorizedException,
+  Logger,
 } from '@nestjs/common';
 import { Request } from 'express';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
@@ -64,16 +65,17 @@ export class PresentationTeamController {
     @Body() createTeamDto: CreateTeamDto,
     @Req() request: Request,
   ): Promise<TeamResponseDto> {
-    // Extract userId from authenticated user
-    // JWT payload: { sub: user.id, googleId, name, teamId, teamName }
-    const userId = (request as any)['user']?.sub;
+    // Extract userId from JWT authenticated user
+    const user = request.user as Express.User;
 
-    if (!userId) {
+    Logger.log(request.user);
+
+    if (!user?.id) {
       throw new UnauthorizedException('User ID not found in token');
     }
 
     // Attach userId to DTO
-    const dtoWithUser = { ...createTeamDto, userId };
+    const dtoWithUser = { ...createTeamDto, userId: user.id };
 
     return this.commandBus.execute<CreateTeamCommand, TeamResponseDto>(
       new CreateTeamCommand(dtoWithUser),

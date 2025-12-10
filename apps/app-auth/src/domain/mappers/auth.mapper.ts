@@ -22,9 +22,7 @@ export class AuthMapper {
         accessToken,
         refreshToken,
         userId: user.id,
-        name: user.name,
-        teamId: user.teamId,
-        teamName: user.teamName,
+        name: user.name
       },
       {
         excludeExtraneousValues: true,

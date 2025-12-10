@@ -13,6 +13,4 @@ model User {
   googleId String    @unique
   name     String
   refreshToken String?
-  teamId String?
-  teamName String?
 }
