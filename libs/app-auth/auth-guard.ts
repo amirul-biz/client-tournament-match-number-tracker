@@ -1,4 +1,4 @@
-import { CanActivate, ExecutionContext, Injectable, Logger } from '@nestjs/common';
+import { CanActivate, ExecutionContext, Injectable, Logger, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { Request, Response } from 'express';
 import {
@@ -18,23 +18,33 @@ export class AuthGuard implements CanActivate {
     const request = context.switchToHttp().getRequest<Request>();
     const response = context.switchToHttp().getResponse<Response>();
 
-    const accessToken = this.extractTokenFromCookie(request, AUTH_CONFIG.COOKIE_ACCESS_TOKEN);
-    const refreshToken = this.extractTokenFromCookie(request, AUTH_CONFIG.COOKIE_REFRESH_TOKEN);
+    try {
+      const accessToken = this.extractTokenFromCookie(request, AUTH_CONFIG.COOKIE_ACCESS_TOKEN);
+      const refreshToken = this.extractTokenFromCookie(request, AUTH_CONFIG.COOKIE_REFRESH_TOKEN);
 
-    // No tokens present - redirect to auth
-    if (!accessToken || !refreshToken) {
-      this.redirectToAuth(response);
-      return false;
+      // No tokens present - throw 401
+      if (!accessToken || !refreshToken) {
+        this.logger.warn('No authentication tokens found');
+        throw new UnauthorizedException('Authentication required');
+      }
+
+      // Try to verify access token first
+      const isAccessTokenValid = await this.verifyAccessToken(accessToken, request);
+      if (isAccessTokenValid) {
+        return true;
+      }
+
+      // Access token invalid, try refresh token
+      return await this.handleRefreshToken(refreshToken, request, response);
+    } catch (error) {
+      // Re-throw UnauthorizedException so NestJS handles it properly
+      if (error instanceof UnauthorizedException) {
+        throw error;
+      }
+      // For any other error, throw UnauthorizedException
+      this.logger.error('Authentication error:', error);
+      throw new UnauthorizedException('Authentication failed');
     }
-
-    // Try to verify access token first
-    const isAccessTokenValid = await this.verifyAccessToken(accessToken, request);
-    if (isAccessTokenValid) {
-      return true;
-    }
-
-    // Access token invalid, try refresh token
-    return this.handleRefreshToken(refreshToken, request, response);
   }
 
   private extractTokenFromCookie(request: Request, tokenName: string): string | undefined {
@@ -84,13 +94,7 @@ export class AuthGuard implements CanActivate {
     } catch (err) {
       const errorMessage = err instanceof Error ? err.message : 'Unknown error';
       this.logger.error('Refresh token verification failed:', errorMessage);
-      this.redirectToAuth(response);
-      return false;
+      throw new UnauthorizedException('Session expired - please login again');
     }
-  }
-
-  private redirectToAuth(response: Response): void {
-    const authUrl = process.env['AUTH_SERVICE_URL'] || 'http://localhost:5000/api';
-    response.redirect(`${authUrl}/auth/google`);
   }
 }

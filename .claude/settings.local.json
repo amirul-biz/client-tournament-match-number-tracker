@@ -22,7 +22,12 @@
       "Bash(npx prisma migrate resolve:*)",
       "Bash(echo:*)",
       "Bash(npx prisma db execute:*)",
-      "Bash(npm run app-competition:prisma:generate:*)"
+      "Bash(npm run app-competition:prisma:generate:*)",
+      "Bash(find:*)",
+      "Bash(npx nx run:*)",
+      "Bash(npm run app-frontend:serve:dev:*)",
+      "Bash(git restore:*)",
+      "Bash(rm:*)"
     ],
     "deny": [],
     "ask": []

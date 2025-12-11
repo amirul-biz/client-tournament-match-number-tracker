@@ -46,10 +46,14 @@ interface CookieOptions {
  * Get cookie options for the given environment and expiration time
  */
 function getCookieOptions(expiresInMs: number): CookieOptions {
+  const isProduction = process.env['NODE_ENV'] === 'production';
+
   return {
     httpOnly: true,
-    secure: process.env['NODE_ENV'] === 'production',
-    sameSite: 'lax',
+    secure: isProduction,
+    // Use 'none' for development to allow cross-port cookies
+    // Requires Chrome flags to be disabled or use Firefox
+    sameSite: isProduction ? 'lax' : 'none',
     domain: AUTH_CONFIG.COOKIE_DOMAIN,
     expires: new Date(Date.now() + expiresInMs),
   };
