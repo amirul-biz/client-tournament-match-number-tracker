@@ -1,0 +1,26 @@
+<div class="flex items-center justify-center min-h-screen bg-gray-50">
+  <mat-card class="auth-card">
+    <mat-card-header class="auth-header">
+      <div class="auth-title-container">
+        <mat-icon class="auth-icon">sports</mat-icon>
+        <h1 class="auth-title">Tournament Match Tracker</h1>
+      </div>
+      <p class="auth-subtitle">Sign in to continue</p>
+    </mat-card-header>
+
+    <mat-card-content class="auth-content">
+      <button
+        mat-raised-button
+        color="primary"
+        class="google-login-btn"
+        (click)="handleGoogleLogin()">
+        <mat-icon>login</mat-icon>
+        <span>Sign in with Google</span>
+      </button>
+
+      <p class="auth-info">
+        Use your Google account to access the tournament management system
+      </p>
+    </mat-card-content>
+  </mat-card>
+</div>

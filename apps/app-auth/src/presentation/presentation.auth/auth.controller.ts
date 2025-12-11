@@ -9,6 +9,7 @@ import {
   Logger,
 } from '@nestjs/common';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
+import { JwtService } from '@nestjs/jwt';
 import {
   ApiTags,
   ApiOperation,
@@ -27,7 +28,8 @@ import { AuthGuard, setAuthCookies } from '@libs';
 export class AuthController {
   constructor(
     private readonly commandBus: CommandBus,
-    private readonly queryBus: QueryBus
+    private readonly queryBus: QueryBus,
+    private readonly jwtService: JwtService
   ) {}
 
   @Get('google')
@@ -73,6 +75,38 @@ export class AuthController {
     return res.redirect(clientHomeUrl);
   }
 
+  @Get('initialize')
+  @ApiOperation({ summary: 'Initialize JWT cookies - refresh tokens if available' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Cookies initialized/refreshed successfully',
+  })
+  @ApiResponse({
+    status: HttpStatus.UNAUTHORIZED,
+    description: 'No valid tokens to initialize',
+  })
+  async initializeCookies(@Req() req: Request, @Res() res: Response) {
+    // Manually handle token refresh without throwing exceptions
+    const authGuard = new AuthGuard(this.jwtService);
+    const context = {
+      switchToHttp: () => ({
+        getRequest: () => req,
+        getResponse: () => res,
+      }),
+    } as any;
+
+    try {
+      const isAuthenticated = await authGuard.canActivate(context);
+      if (isAuthenticated) {
+        return res.status(HttpStatus.OK).json({ message: 'Cookies initialized' });
+      } else {
+        return res.status(HttpStatus.UNAUTHORIZED).json({ message: 'No valid tokens' });
+      }
+    } catch (error) {
+      return res.status(HttpStatus.UNAUTHORIZED).json({ message: 'Authentication failed' });
+    }
+  }
+
   @Get('profile')
   @UseGuards(AuthGuard)
   @ApiCookieAuth()
@@ -92,6 +126,7 @@ export class AuthController {
   })
   async getProfile(@Req() req: Request): Promise<ProfileResponseDto> {
     const user = req.user as Express.User;
+    Logger.log(req,user)
     if (!user?.id) {
       throw new Error('User ID not found in token');
     }
