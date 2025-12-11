@@ -1,5 +1,5 @@
 {
-  "name": "temp-app",
+  "name": "app-frontend",
   "$schema": "../../node_modules/nx/schemas/project-schema.json",
   "projectType": "application",
   "sourceRoot": "apps/app-frontend/src",
@@ -57,10 +57,10 @@
       "executor": "@angular/build:dev-server",
       "configurations": {
         "production": {
-          "buildTarget": "temp-app:build:production"
+          "buildTarget": "app-frontend:build:production"
         },
         "development": {
-          "buildTarget": "temp-app:build:development"
+          "buildTarget": "app-frontend:build:development"
         }
       },
       "defaultConfiguration": "development"
