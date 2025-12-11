@@ -27,7 +27,11 @@
       "Bash(npx nx run:*)",
       "Bash(npm run app-frontend:serve:dev:*)",
       "Bash(git restore:*)",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "Bash(curl:*)",
+      "Bash(npx nx serve:*)",
+      "Bash(npx nx show project:*)",
+      "Bash(npx ng serve:*)"
     ],
     "deny": [],
     "ask": []

@@ -19,8 +19,15 @@ export class AuthGuard implements CanActivate {
     const response = context.switchToHttp().getResponse<Response>();
 
     try {
+      // Debug: Log all cookies
+      Logger.log('[AuthGuard] Request cookies:', request.cookies);
+      Logger.log('[AuthGuard] Request headers.cookie:', request.headers.cookie);
+
       const accessToken = this.extractTokenFromCookie(request, AUTH_CONFIG.COOKIE_ACCESS_TOKEN);
       const refreshToken = this.extractTokenFromCookie(request, AUTH_CONFIG.COOKIE_REFRESH_TOKEN);
+
+      Logger.log('[AuthGuard] Extracted accessToken:', accessToken ? 'present' : 'missing');
+      Logger.log('[AuthGuard] Extracted refreshToken:', refreshToken ? 'present' : 'missing');
 
       // No tokens present - throw 401
       if (!accessToken || !refreshToken) {

@@ -35,9 +35,9 @@ async function bootstrap() {
   // Enable cookie parser
   app.use(cookieParser());
 
-  // Enable CORS
+  // Enable CORS - explicitly specify allowed origins for credentials to work
   app.enableCors({
-    origin: true,
+    origin: process.env['CLIENT_URL'] || 'http://localhost:4200',
     credentials: true,
   });
 
