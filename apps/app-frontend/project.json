@@ -23,10 +23,10 @@
           }
         ],
         "styles": ["apps/app-frontend/src/styles.scss"],
-        "server": "apps/app-frontend/src/main.server.ts",
-        "outputMode": "static",
-        "ssr": false,
-        "outputPath": "dist/temp-app"
+        "outputPath": "dist/temp-app",
+        "define": {
+          "process.env.AUTH_API_URL": "\"${AUTH_API_URL}\""
+        }
       },
       "configurations": {
         "production": {
@@ -55,6 +55,11 @@
     },
     "serve": {
       "executor": "@angular/build:dev-server",
+      "options": {
+        "buildTarget": "app-frontend:build:development",
+        "port": 4200,
+        "host": "localhost"
+      },
       "configurations": {
         "production": {
           "buildTarget": "app-frontend:build:production"

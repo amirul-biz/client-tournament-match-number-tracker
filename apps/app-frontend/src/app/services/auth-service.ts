@@ -2,6 +2,7 @@ import { Injectable, signal } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, of } from 'rxjs';
 import { map, catchError, tap } from 'rxjs/operators';
+import { environment } from '../../environments/environment';
 
 interface UserProfile {
   id: string;
@@ -17,7 +18,8 @@ interface UserProfile {
   providedIn: 'root',
 })
 export class AuthService {
-  private readonly AUTH_API_URL = 'http://localhost:5000/api/auth';
+  // Use environment variable for API URL
+  private readonly AUTH_API_URL = environment.authApiUrl;
   private readonly CACHE_DURATION_MS = 10 * 60 * 1000; // 10 minutes
 
   // Signals for reactive state
