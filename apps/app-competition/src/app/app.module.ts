@@ -1,14 +1,20 @@
 import { Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ArenaModule } from '../../tournament/presentation/presentation.arena/arena.module';
-import { TeamModule } from '../../tournament/presentation/presentation.team/team.module';
-import { ParticipantModule } from '../participant/participant.module';
-import { CategoryModule } from '../category/category.module';
 import { DatabaseModule } from '../../tournament/infrastructure/database';
+import { ArenaModule } from '../arena/arena.module';
+import { TeamModule } from '../team/team.module';
+import { CategoryModule } from '../category/category.module';
+import { ParticipantModule } from '../participant/participant.module';
 
 @Module({
-  imports: [DatabaseModule, ArenaModule, TeamModule, ParticipantModule, CategoryModule],
+  imports: [
+    DatabaseModule,
+    ArenaModule,
+    TeamModule,
+    CategoryModule,
+    ParticipantModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

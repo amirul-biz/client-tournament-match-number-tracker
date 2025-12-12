@@ -1,44 +1,143 @@
-import { Body, Controller, Get, Post, UploadedFile, UseInterceptors } from '@nestjs/common';
-import { ApiBody, ApiConsumes, ApiTags } from '@nestjs/swagger';
+import {
+  Controller,
+  Get,
+  Post,
+  Patch,
+  Delete,
+  Body,
+  Param,
+  HttpCode,
+  HttpStatus,
+  ParseUUIDPipe,
+  UploadedFile,
+  UseInterceptors,
+} from '@nestjs/common';
+import {
+  ApiTags,
+  ApiOperation,
+  ApiResponse,
+  ApiParam,
+  ApiBody,
+  ApiConsumes,
+} from '@nestjs/swagger';
 import { FileInterceptor } from '@nestjs/platform-express';
-import { ParticipantService } from './participant.service';
-import { CreateParticipantDto } from './dto/create-participant.dto';
 import * as XLSX from 'xlsx';
-
-export interface IFileUploadResponse {
-  participantName: string;
-  categoryId: string;
-  teamId: string
-}
-
-export interface IResponseMapper {
-  teamId: number;
-  participantName: string;
-  categoryId: number;
-}
+import { ParticipantService } from './participant.service';
+import { CreateParticipantDto, UpdateParticipantDto } from './participant.dto';
+import { Participant } from '../../generated/prisma';
 
 @ApiTags('participant')
 @Controller('participant')
 export class ParticipantController {
-  constructor(private participantService: ParticipantService) {}
+  constructor(private readonly participantService: ParticipantService) {}
 
   @Post()
-  create(@Body() createParticipantDto: CreateParticipantDto) {
-    return this.participantService.create(
-      createParticipantDto.name,
-      createParticipantDto.teamId,
-      createParticipantDto.categoryId
-    );
+  @HttpCode(HttpStatus.CREATED)
+  @ApiOperation({ summary: 'Create a new participant' })
+  @ApiBody({ type: CreateParticipantDto })
+  @ApiResponse({
+    status: HttpStatus.CREATED,
+    description: 'Participant created successfully',
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Invalid input data',
+  })
+  async create(@Body() createParticipantDto: CreateParticipantDto): Promise<Participant> {
+    return this.participantService.create(createParticipantDto);
   }
 
   @Get()
-  findAll() {
+  @ApiOperation({ summary: 'Get all participants' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'List of all participants',
+  })
+  async findAll(): Promise<Participant[]> {
     return this.participantService.findAll();
+  }
+
+  @Get(':id')
+  @ApiOperation({ summary: 'Get a participant by ID' })
+  @ApiParam({
+    name: 'id',
+    description: 'Participant UUID',
+    type: String,
+    format: 'uuid',
+  })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Participant found',
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Participant not found',
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Invalid UUID format',
+  })
+  async findOne(@Param('id', ParseUUIDPipe) id: string): Promise<Participant> {
+    return this.participantService.findOne(id);
+  }
+
+  @Patch(':id')
+  @ApiOperation({ summary: 'Update a participant' })
+  @ApiParam({
+    name: 'id',
+    description: 'Participant UUID',
+    type: String,
+    format: 'uuid',
+  })
+  @ApiBody({ type: UpdateParticipantDto })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Participant updated successfully',
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Participant not found',
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Invalid input data or UUID format',
+  })
+  async update(
+    @Param('id', ParseUUIDPipe) id: string,
+    @Body() updateParticipantDto: UpdateParticipantDto,
+  ): Promise<Participant> {
+    return this.participantService.update(id, updateParticipantDto);
+  }
+
+  @Delete(':id')
+  @HttpCode(HttpStatus.NO_CONTENT)
+  @ApiOperation({ summary: 'Delete a participant' })
+  @ApiParam({
+    name: 'id',
+    description: 'Participant UUID',
+    type: String,
+    format: 'uuid',
+  })
+  @ApiResponse({
+    status: HttpStatus.NO_CONTENT,
+    description: 'Participant deleted successfully',
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Participant not found',
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Invalid UUID format',
+  })
+  async remove(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
+    await this.participantService.remove(id);
   }
 
   @Post('upload')
   @ApiConsumes('multipart/form-data')
   @UseInterceptors(FileInterceptor('file'))
+  @ApiOperation({ summary: 'Bulk upload participants via Excel file' })
   @ApiBody({
     schema: {
       type: 'object',
@@ -50,25 +149,26 @@ export class ParticipantController {
       },
     },
   })
-  uploadFile(@UploadedFile() file: Express.Multer.File) {
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'File processed successfully',
+  })
+  @ApiResponse({
+    status: HttpStatus.BAD_REQUEST,
+    description: 'Invalid file format',
+  })
+  async uploadFile(@UploadedFile() file: Express.Multer.File) {
     const workbook = XLSX.read(file.buffer, { type: 'buffer' });
-
-    // Get the first worksheet (or iterate through workbook.SheetNames to get all)
     const sheetName = workbook.SheetNames[0];
     const worksheet = workbook.Sheets[sheetName];
-
-    // Convert the worksheet data to JSON
     const data = XLSX.utils.sheet_to_json(worksheet) as CreateParticipantDto[];
 
-  
-    // You can now process the 'data' array (e.g., save to database)
-    console.log(data);
+    const result = await this.participantService.createMany(data);
 
-    this.participantService.createMany(data)
-
-
-    return { message: 'File processed successfully', data };
+    return {
+      message: 'File processed successfully',
+      count: result.count,
+      data,
+    };
   }
-
-
 }

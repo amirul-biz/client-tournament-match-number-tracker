@@ -31,7 +31,9 @@
       "Bash(curl:*)",
       "Bash(npx nx serve:*)",
       "Bash(npx nx show project:*)",
-      "Bash(npx ng serve:*)"
+      "Bash(npx ng serve:*)",
+      "Bash(npx prisma migrate dev:*)",
+      "Bash(npx prisma migrate status:*)"
     ],
     "deny": [],
     "ask": []

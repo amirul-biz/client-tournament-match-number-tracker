@@ -1,10 +1,10 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, PartialType } from '@nestjs/swagger';
 import { IsNotEmpty, IsString, MinLength, MaxLength } from 'class-validator';
 import { Transform } from 'class-transformer';
 
 export class CreateTeamDto {
   @ApiProperty({
-    description: 'The team Name',
+    description: 'The team name',
     example: 'Team Alpha',
     minLength: 1,
     maxLength: 100,
@@ -17,6 +17,7 @@ export class CreateTeamDto {
   name!: string;
 
   // userId is set internally from the authenticated user, not from request body
-  // This should NOT have validation decorators since it's not user input
   userId?: string;
 }
+
+export class UpdateTeamDto extends PartialType(CreateTeamDto) {}
