@@ -21,13 +21,13 @@ export class TeamService {
     });
 
     // Event sourcing - emit event to RabbitMQ
-    this.rmqClient.emit('team.created', {
-      id: team.id,
-      name: team.name,
-      timestamp: new Date(),
-    }).subscribe({
-      error: (err) => this.logger.error('RabbitMQ emit error:', err),
-    });
+    // this.rmqClient.emit('team.created', {
+    //   id: team.id,
+    //   name: team.name,
+    //   timestamp: new Date(),
+    // }).subscribe({
+    //   error: (err) => this.logger.error('RabbitMQ emit error:', err),
+    // });
 
     this.logger.log(`Team created: ${team.id}`);
     return team;
