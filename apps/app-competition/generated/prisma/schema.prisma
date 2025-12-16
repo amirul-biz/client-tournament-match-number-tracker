@@ -1,6 +1,6 @@
 generator client {
-  provider = "prisma-client-js"
-  output   = "../generated/prisma"
+  provider        = "prisma-client-js"
+  output          = "../generated/prisma"
 }
 
 datasource db {
@@ -18,15 +18,13 @@ model Arena {
 
 /// Team Model
 model Team {
-  id     String @id @default(uuid())
-  name   String
-  userId String // Track which user created this team
+  id   String @id @default(uuid())
+  name String
 
   // Relationship to Participant: One Team can have many participants
   participants Participant[]
 
   @@index([id])
-  @@index([userId])
 }
 
 /// Category Model

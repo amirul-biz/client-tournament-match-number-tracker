@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../../tournament/infrastructure/database';
 import { CreateCategoryDto, UpdateCategoryDto } from './category.dto';
-import { Category } from '../../generated/prisma';
+import { Category } from '@app-competition/prisma';
 
 @Injectable()
 export class CategoryService {

@@ -16,7 +16,9 @@
     "paths": {
       "@enums/*": ["libs/enums/*"],
       "@json/*": ["libs/json/*"],
-      "@libs": ["libs/index.ts"]
+      "@libs": ["libs/index.ts"],
+      "@app-competition/prisma": ["apps/app-competition/generated/prisma/index.d.ts"],
+      "@app-competition/prisma/*": ["apps/app-competition/generated/prisma/*"]
     },
     "typeRoots": ["./node_modules/@types", "./types"],
     "rootDir": "."

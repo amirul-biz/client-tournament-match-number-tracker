@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../../tournament/infrastructure/database';
 import { CreateParticipantDto, UpdateParticipantDto } from './participant.dto';
-import { Participant } from '../../generated/prisma';
+import { Participant } from '@app-competition/prisma';
 
 @Injectable()
 export class ParticipantService {
@@ -22,10 +22,47 @@ export class ParticipantService {
   }
 
   async createMany(data: CreateParticipantDto[]): Promise<{ count: number }> {
-    return this.prisma.participant.createMany({ data });
+    // Process in batches of 100 to avoid overwhelming the database
+    const BATCH_SIZE = 100;
+    let totalCount = 0;
+
+    for (let i = 0; i < data.length; i += BATCH_SIZE) {
+      const batch = data.slice(i, i + BATCH_SIZE);
+
+      // Clean the data - ensure only valid fields
+      const cleanedBatch = batch.map((item) => ({
+        name: item.name?.trim(),
+        teamId: item.teamId,
+        categoryId: item.categoryId,
+      }));
+
+      const result = await this.prisma.participant.createMany({
+        data: cleanedBatch,
+        skipDuplicates: true, // Skip if duplicate exists
+      });
+
+      totalCount += result.count;
+    }
+
+    return { count: totalCount };
   }
 
-  async findAll(): Promise<Participant[]> {
+  async findAll(): Promise<
+    {
+      id: string;
+      name: string;
+      teamId: string;
+      categoryId: string;
+      team: {
+        id: string;
+        name: string;
+      };
+      category: {
+        id: string;
+        name: string;
+      };
+    }[]
+  > {
     return this.prisma.participant.findMany({
       include: {
         team: true,

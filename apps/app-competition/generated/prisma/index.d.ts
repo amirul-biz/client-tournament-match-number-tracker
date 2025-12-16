@@ -2149,19 +2149,16 @@ export namespace Prisma {
   export type TeamMinAggregateOutputType = {
     id: string | null
     name: string | null
-    userId: string | null
   }
 
   export type TeamMaxAggregateOutputType = {
     id: string | null
     name: string | null
-    userId: string | null
   }
 
   export type TeamCountAggregateOutputType = {
     id: number
     name: number
-    userId: number
     _all: number
   }
 
@@ -2169,19 +2166,16 @@ export namespace Prisma {
   export type TeamMinAggregateInputType = {
     id?: true
     name?: true
-    userId?: true
   }
 
   export type TeamMaxAggregateInputType = {
     id?: true
     name?: true
-    userId?: true
   }
 
   export type TeamCountAggregateInputType = {
     id?: true
     name?: true
-    userId?: true
     _all?: true
   }
 
@@ -2260,7 +2254,6 @@ export namespace Prisma {
   export type TeamGroupByOutputType = {
     id: string
     name: string
-    userId: string
     _count: TeamCountAggregateOutputType | null
     _min: TeamMinAggregateOutputType | null
     _max: TeamMaxAggregateOutputType | null
@@ -2283,7 +2276,6 @@ export namespace Prisma {
   export type TeamSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
-    userId?: boolean
     participants?: boolean | Team$participantsArgs<ExtArgs>
     _count?: boolean | TeamCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["team"]>
@@ -2291,22 +2283,19 @@ export namespace Prisma {
   export type TeamSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
-    userId?: boolean
   }, ExtArgs["result"]["team"]>
 
   export type TeamSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
-    userId?: boolean
   }, ExtArgs["result"]["team"]>
 
   export type TeamSelectScalar = {
     id?: boolean
     name?: boolean
-    userId?: boolean
   }
 
-  export type TeamOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "userId", ExtArgs["result"]["team"]>
+  export type TeamOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name", ExtArgs["result"]["team"]>
   export type TeamInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     participants?: boolean | Team$participantsArgs<ExtArgs>
     _count?: boolean | TeamCountOutputTypeDefaultArgs<ExtArgs>
@@ -2322,7 +2311,6 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       name: string
-      userId: string
     }, ExtArgs["result"]["team"]>
     composites: {}
   }
@@ -2749,7 +2737,6 @@ export namespace Prisma {
   interface TeamFieldRefs {
     readonly id: FieldRef<"Team", 'String'>
     readonly name: FieldRef<"Team", 'String'>
-    readonly userId: FieldRef<"Team", 'String'>
   }
     
 
@@ -5288,8 +5275,7 @@ export namespace Prisma {
 
   export const TeamScalarFieldEnum: {
     id: 'id',
-    name: 'name',
-    userId: 'userId'
+    name: 'name'
   };
 
   export type TeamScalarFieldEnum = (typeof TeamScalarFieldEnum)[keyof typeof TeamScalarFieldEnum]
@@ -5408,14 +5394,12 @@ export namespace Prisma {
     NOT?: TeamWhereInput | TeamWhereInput[]
     id?: StringFilter<"Team"> | string
     name?: StringFilter<"Team"> | string
-    userId?: StringFilter<"Team"> | string
     participants?: ParticipantListRelationFilter
   }
 
   export type TeamOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
-    userId?: SortOrder
     participants?: ParticipantOrderByRelationAggregateInput
   }
 
@@ -5425,14 +5409,12 @@ export namespace Prisma {
     OR?: TeamWhereInput[]
     NOT?: TeamWhereInput | TeamWhereInput[]
     name?: StringFilter<"Team"> | string
-    userId?: StringFilter<"Team"> | string
     participants?: ParticipantListRelationFilter
   }, "id">
 
   export type TeamOrderByWithAggregationInput = {
     id?: SortOrder
     name?: SortOrder
-    userId?: SortOrder
     _count?: TeamCountOrderByAggregateInput
     _max?: TeamMaxOrderByAggregateInput
     _min?: TeamMinOrderByAggregateInput
@@ -5444,7 +5426,6 @@ export namespace Prisma {
     NOT?: TeamScalarWhereWithAggregatesInput | TeamScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Team"> | string
     name?: StringWithAggregatesFilter<"Team"> | string
-    userId?: StringWithAggregatesFilter<"Team"> | string
   }
 
   export type CategoryWhereInput = {
@@ -5578,47 +5559,40 @@ export namespace Prisma {
   export type TeamCreateInput = {
     id?: string
     name: string
-    userId: string
     participants?: ParticipantCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUncheckedCreateInput = {
     id?: string
     name: string
-    userId: string
     participants?: ParticipantUncheckedCreateNestedManyWithoutTeamInput
   }
 
   export type TeamUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
     participants?: ParticipantUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
     participants?: ParticipantUncheckedUpdateManyWithoutTeamNestedInput
   }
 
   export type TeamCreateManyInput = {
     id?: string
     name: string
-    userId: string
   }
 
   export type TeamUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
   }
 
   export type TeamUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
   }
 
   export type CategoryCreateInput = {
@@ -5768,19 +5742,16 @@ export namespace Prisma {
   export type TeamCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
-    userId?: SortOrder
   }
 
   export type TeamMaxOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
-    userId?: SortOrder
   }
 
   export type TeamMinOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
-    userId?: SortOrder
   }
 
   export type CategoryCountOrderByAggregateInput = {
@@ -6076,13 +6047,11 @@ export namespace Prisma {
   export type TeamCreateWithoutParticipantsInput = {
     id?: string
     name: string
-    userId: string
   }
 
   export type TeamUncheckedCreateWithoutParticipantsInput = {
     id?: string
     name: string
-    userId: string
   }
 
   export type TeamCreateOrConnectWithoutParticipantsInput = {
@@ -6119,13 +6088,11 @@ export namespace Prisma {
   export type TeamUpdateWithoutParticipantsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
   }
 
   export type TeamUncheckedUpdateWithoutParticipantsInput = {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
-    userId?: StringFieldUpdateOperationsInput | string
   }
 
   export type CategoryUpsertWithoutParticipantsInput = {

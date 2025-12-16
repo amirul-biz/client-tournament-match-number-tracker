@@ -19,7 +19,7 @@ import {
 } from '@nestjs/swagger';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto, UpdateCategoryDto } from './category.dto';
-import { Category } from '../../generated/prisma';
+import { Category } from '@app-competition/prisma';
 
 @ApiTags('category')
 @Controller('category')

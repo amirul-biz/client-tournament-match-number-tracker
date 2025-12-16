@@ -9,23 +9,17 @@ import {
   HttpCode,
   HttpStatus,
   ParseUUIDPipe,
-  UseGuards,
-  Req,
-  UnauthorizedException,
 } from '@nestjs/common';
-import { Request } from 'express';
 import {
   ApiTags,
   ApiOperation,
   ApiResponse,
   ApiParam,
   ApiBody,
-  ApiBearerAuth,
 } from '@nestjs/swagger';
-import { AuthGuard } from '@libs';
 import { TeamService } from './team.service';
 import { CreateTeamDto, UpdateTeamDto } from './team.dto';
-import { Team } from '../../generated/prisma';
+import { Team } from '@app-competition/prisma';
 
 @ApiTags('teams')
 @Controller('teams')
@@ -33,8 +27,6 @@ export class TeamController {
   constructor(private readonly teamService: TeamService) {}
 
   @Post()
-  @UseGuards(AuthGuard)
-  @ApiBearerAuth()
   @HttpCode(HttpStatus.CREATED)
   @ApiOperation({ summary: 'Create a new team' })
   @ApiBody({ type: CreateTeamDto })
@@ -43,28 +35,11 @@ export class TeamController {
     description: 'Team created successfully',
   })
   @ApiResponse({
-    status: HttpStatus.UNAUTHORIZED,
-    description: 'Unauthorized - authentication required',
-  })
-  @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
     description: 'Invalid input data',
   })
-  async create(
-    @Body() createTeamDto: CreateTeamDto,
-    @Req() request: Request,
-  ): Promise<Team> {
-    // Extract userId from JWT authenticated user
-    const user = request.user as Express.User;
-
-    if (!user?.id) {
-      throw new UnauthorizedException('User ID not found in token');
-    }
-
-    // Attach userId to DTO
-    const dtoWithUser = { ...createTeamDto, userId: user.id };
-
-    return this.teamService.create(dtoWithUser);
+  async create(@Body() createTeamDto: CreateTeamDto): Promise<Team> {
+    return this.teamService.create(createTeamDto);
   }
 
   @Get()

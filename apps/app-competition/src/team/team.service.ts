@@ -2,7 +2,7 @@ import { Injectable, NotFoundException, Inject, Logger } from '@nestjs/common';
 import { ClientProxy } from '@nestjs/microservices';
 import { PrismaService } from '../../tournament/infrastructure/database';
 import { CreateTeamDto, UpdateTeamDto } from './team.dto';
-import { Team } from '../../generated/prisma';
+import { Team } from '@app-competition/prisma';
 
 @Injectable()
 export class TeamService {
@@ -17,7 +17,6 @@ export class TeamService {
     const team = await this.prisma.team.create({
       data: {
         name: data.name,
-        userId: data.userId!,
       },
     });
 
@@ -25,7 +24,6 @@ export class TeamService {
     this.rmqClient.emit('team.created', {
       id: team.id,
       name: team.name,
-      userId: team.userId,
       timestamp: new Date(),
     }).subscribe({
       error: (err) => this.logger.error('RabbitMQ emit error:', err),

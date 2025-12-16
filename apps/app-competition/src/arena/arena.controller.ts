@@ -22,7 +22,7 @@ import {
 import { AuthGuard } from '@libs';
 import { ArenaService } from './arena.service';
 import { CreateArenaDto, UpdateArenaDto } from './arena.dto';
-import { Arena } from '../../generated/prisma';
+import { Arena } from '@app-competition/prisma';
 
 @ApiTags('arenas')
 @Controller('arenas')

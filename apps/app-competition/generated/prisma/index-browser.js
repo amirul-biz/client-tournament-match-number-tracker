@@ -127,8 +127,7 @@ exports.Prisma.ArenaScalarFieldEnum = {
 
 exports.Prisma.TeamScalarFieldEnum = {
   id: 'id',
-  name: 'name',
-  userId: 'userId'
+  name: 'name'
 };
 
 exports.Prisma.CategoryScalarFieldEnum = {

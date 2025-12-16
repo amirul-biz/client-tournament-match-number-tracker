@@ -11,8 +11,3 @@ DROP TABLE IF EXISTS "TeamMatch";
 
 -- CreateIndex (if not exists)
 CREATE INDEX IF NOT EXISTS "Arena_id_idx" ON "Arena"("id");
-
--- AlterTable Team (ensure userId column exists with proper index)
--- The userId column should already exist from previous migrations
--- Just ensure the index exists
-CREATE INDEX IF NOT EXISTS "Team_userId_idx" ON "Team"("userId");
