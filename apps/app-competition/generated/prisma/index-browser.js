@@ -125,11 +125,6 @@ exports.Prisma.ArenaScalarFieldEnum = {
   name: 'name'
 };
 
-exports.Prisma.StatusScalarFieldEnum = {
-  id: 'id',
-  name: 'name'
-};
-
 exports.Prisma.TeamScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -148,21 +143,6 @@ exports.Prisma.ParticipantScalarFieldEnum = {
   categoryId: 'categoryId'
 };
 
-exports.Prisma.MatchScalarFieldEnum = {
-  id: 'id',
-  bout: 'bout',
-  createdAt: 'createdAt',
-  editedAt: 'editedAt',
-  arenaId: 'arenaId',
-  statusId: 'statusId'
-};
-
-exports.Prisma.TeamMatchScalarFieldEnum = {
-  id: 'id',
-  matchId: 'matchId',
-  teamId: 'teamId'
-};
-
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -176,12 +156,9 @@ exports.Prisma.QueryMode = {
 
 exports.Prisma.ModelName = {
   Arena: 'Arena',
-  Status: 'Status',
   Team: 'Team',
   Category: 'Category',
-  Participant: 'Participant',
-  Match: 'Match',
-  TeamMatch: 'TeamMatch'
+  Participant: 'Participant'
 };
 
 /**

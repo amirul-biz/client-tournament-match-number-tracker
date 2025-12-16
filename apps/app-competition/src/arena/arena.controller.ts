@@ -11,7 +11,6 @@ import {
   ParseUUIDPipe,
   UseGuards,
 } from '@nestjs/common';
-import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import {
   ApiTags,
   ApiOperation,
@@ -20,30 +19,15 @@ import {
   ApiBody,
   ApiBearerAuth,
 } from '@nestjs/swagger';
-import {
-  CreateArenaDto,
-  UpdateArenaDto,
-  ArenaResponseDto,
-} from '../../domain/dtos';
-import {
-  CreateArenaCommand,
-  UpdateArenaCommand,
-  DeleteArenaCommand,
-} from '../../application/commands';
-import {
-  GetAllArenasQuery,
-  GetArenaByIdQuery,
-} from '../../application/queries';
 import { AuthGuard } from '@libs';
-
+import { ArenaService } from './arena.service';
+import { CreateArenaDto, UpdateArenaDto } from './arena.dto';
+import { Arena } from '../../generated/prisma';
 
 @ApiTags('arenas')
 @Controller('arenas')
 export class ArenaController {
-  constructor(
-    private readonly commandBus: CommandBus,
-    private readonly queryBus: QueryBus,
-  ) {}
+  constructor(private readonly arenaService: ArenaService) {}
 
   @Post()
   @HttpCode(HttpStatus.CREATED)
@@ -52,32 +36,25 @@ export class ArenaController {
   @ApiResponse({
     status: HttpStatus.CREATED,
     description: 'Arena created successfully',
-    type: ArenaResponseDto,
   })
   @ApiResponse({
     status: HttpStatus.BAD_REQUEST,
     description: 'Invalid input data',
   })
-  async create(
-    @Body() createArenaDto: CreateArenaDto,
-  ): Promise<ArenaResponseDto> {
-    return this.commandBus.execute<CreateArenaCommand, ArenaResponseDto>(
-      new CreateArenaCommand(createArenaDto),
-    );
+  async create(@Body() createArenaDto: CreateArenaDto): Promise<Arena> {
+    return this.arenaService.create(createArenaDto);
   }
 
   @Get()
   @UseGuards(AuthGuard)
+  @ApiBearerAuth()
   @ApiOperation({ summary: 'Get all arenas' })
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'List of all arenas',
-    type: [ArenaResponseDto],
   })
-  async findAll(): Promise<ArenaResponseDto[]> {
-    return this.queryBus.execute<GetAllArenasQuery, ArenaResponseDto[]>(
-      new GetAllArenasQuery(),
-    );
+  async findAll(): Promise<Arena[]> {
+    return this.arenaService.findAll();
   }
 
   @Get(':id')
@@ -91,7 +68,6 @@ export class ArenaController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Arena found',
-    type: ArenaResponseDto,
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
@@ -101,12 +77,8 @@ export class ArenaController {
     status: HttpStatus.BAD_REQUEST,
     description: 'Invalid UUID format',
   })
-  async findOne(
-    @Param('id', ParseUUIDPipe) id: string,
-  ): Promise<ArenaResponseDto> {
-    return this.queryBus.execute<GetArenaByIdQuery, ArenaResponseDto>(
-      new GetArenaByIdQuery(id),
-    );
+  async findOne(@Param('id', ParseUUIDPipe) id: string): Promise<Arena> {
+    return this.arenaService.findOne(id);
   }
 
   @Patch(':id')
@@ -121,7 +93,6 @@ export class ArenaController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Arena updated successfully',
-    type: ArenaResponseDto,
   })
   @ApiResponse({
     status: HttpStatus.NOT_FOUND,
@@ -134,10 +105,8 @@ export class ArenaController {
   async update(
     @Param('id', ParseUUIDPipe) id: string,
     @Body() updateArenaDto: UpdateArenaDto,
-  ): Promise<ArenaResponseDto> {
-    return this.commandBus.execute<UpdateArenaCommand, ArenaResponseDto>(
-      new UpdateArenaCommand(id, updateArenaDto),
-    );
+  ): Promise<Arena> {
+    return this.arenaService.update(id, updateArenaDto);
   }
 
   @Delete(':id')
@@ -162,8 +131,6 @@ export class ArenaController {
     description: 'Invalid UUID format',
   })
   async remove(@Param('id', ParseUUIDPipe) id: string): Promise<void> {
-    await this.commandBus.execute<DeleteArenaCommand, void>(
-      new DeleteArenaCommand(id),
-    );
+    await this.arenaService.remove(id);
   }
 }

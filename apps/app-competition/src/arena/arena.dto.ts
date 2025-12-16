@@ -1,4 +1,4 @@
-import { ApiProperty } from '@nestjs/swagger';
+import { ApiProperty, PartialType } from '@nestjs/swagger';
 import { IsNotEmpty, IsString, MinLength, MaxLength } from 'class-validator';
 import { Transform } from 'class-transformer';
 
@@ -16,3 +16,5 @@ export class CreateArenaDto {
   @Transform(({ value }) => value?.trim())
   name!: string;
 }
+
+export class UpdateArenaDto extends PartialType(CreateArenaDto) {}
